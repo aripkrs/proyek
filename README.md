@@ -235,11 +235,43 @@ Berikut ini adalah hasilnya:
    
 - _Dropping Column with Low Correlation_
       
-      Pada bagian ini adalah proses penghapusan fitur-fitur yang memiliki korelasi rendah terhadap variabel target dari dataset. Langkah ini diambil berdasarkan asumsi bahwa fitur dengan korelasi rendah tidak memberikan kontribusi signifikan terhadap prediksi yang dibuat oleh model.
+Pada bagian ini adalah proses penghapusan fitur-fitur yang memiliki korelasi rendah terhadap variabel target dari dataset. Langkah ini diambil berdasarkan asumsi bahwa fitur dengan korelasi rendah tidak memberikan kontribusi signifikan terhadap prediksi yang dibuat oleh model.
  
-      **Alasan**: Tahapan ini perlu dilakukan karena fitur dengan korelasi rendah terhadap variabel target cenderung tidak memberikan informasi yang berguna untuk prediksi dan dapat menambahkan kebisingan yang tidak perlu ke dalam model. Dengan menghilangkan fitur-fitur ini, kita dapat mengurangi kompleksitas model, yang dapat membantu dalam mencegah _overfitting_ dan mempercepat waktu pelatihan. Selain itu, model yang lebih sederhana dengan fitur yang lebih sedikit lebih mudah untuk diinterpretasikan, yang memungkinkan kita untuk lebih memahami bagaimana fitur-fitur tersebut mempengaruhi variabel target. 
+**Alasan**: Tahapan ini perlu dilakukan karena fitur dengan korelasi rendah terhadap variabel target cenderung tidak memberikan informasi yang berguna untuk prediksi dan dapat menambahkan kebisingan yang tidak perlu ke dalam model. Dengan menghilangkan fitur-fitur ini, kita dapat mengurangi kompleksitas model, yang dapat membantu dalam mencegah _overfitting_ dan mempercepat waktu pelatihan. Selain itu, model yang lebih sederhana dengan fitur yang lebih sedikit lebih mudah untuk diinterpretasikan, yang memungkinkan kita untuk lebih memahami bagaimana fitur-fitur tersebut mempengaruhi variabel target. 
 
+Berikut ini adalah proses penghapusan kolom dengan korelasi yang rendah:
+      ```python
+      # Mendefinisikan daftar fitur dengan korelasi rendah terhadap variabel target
+     low_corr = ['season', 'gill-attachment', 'gill-color']
+      
+      # Menghapus fitur-fitur tersebut dari dataset
+      # Axis=1 menunjukkan bahwa operasi penghapusan dilakukan pada kolom (fitur)
+      dfclean = dfclean.drop(low_corr, axis=1)
+      ```
+Berikut ini adalah tampilan _dataframe_ setelah penghapusan beberapa kolom:
+![image](https://github.com/user-attachments/assets/78662bcc-136e-43b5-a78f-7832fd97fe6a)
+Penghapusan kolom dengan korelasi rendah sudah berhasil dilakukan.
 
+- _Handle Missing Value_
+      
+ _Missing Value_ terjadi ketika variabel atau barus tertentu kekurangan titik data, sehingga menghasilkan informasi yang tidak lengkap. Nilai yang hilang dapat ditangani dengan berbagai cara seperti imputasi (mengisi nilai yang hilang dengan mean, median, modus, dll), atau penghapusan (menghilangkan baris atau kolom yang nilai hilang)
+ 
+**Alasan**: _Missing Value_ perlu ditangani karena jika dibiarkan dapat berpengaruh ke rendahnya akurasi model yang akan dibuat. Maka dari itu, penting untuk mengatasi missing value secara efisien untuk mendapatkan model _Machine Learning_ yang baik juga.
+ 
+Berikut ini adalah kode untuk mencari tahu kolom mana saja dan berapa jumlah _missing value_-nya:
+      ```python
+       dfclean.isnull().sum()
+      ```
+ ```python	
+cap-diameter 	0
+cap-shape 	0
+stem-height 	0
+stem-width 	0
+stem-color 	0
+class 	0
+
+dtype: int64
+```
 
 Pada bagian ini Anda menerapkan dan menyebutkan teknik data preparation yang dilakukan. Teknik yang digunakan pada notebook dan laporan harus berurutan.
 
