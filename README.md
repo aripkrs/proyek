@@ -140,6 +140,7 @@ class	0
 dtype: int64
 ```
 ### Visualisasi data
+- _Univariate Analysis
 Univariate Analysis adalah jenis analisis data yang memeriksa satu variabel (atau bidang data) pada satu waktu. Tujuannya adalah untuk menggambarkan data dan menemukan pola yang ada dalam distribusi variabel tersebut. Ini termasuk penggunaan statistik deskriptif, histogram, dan box plots untuk menganalisis distribusi dan memahami sifat dari variabel tersebut.
 ``` python
 # Membuat count plot
@@ -153,10 +154,92 @@ plt.show()
 Hasilnya Univariate Analysis Categorical Column
 
 ![image](https://github.com/user-attachments/assets/5354a8bd-1169-4b8f-8827-e5e804cce858)
+                             Gambar 1. 
 
 Berdasarkan Gambar diatas, terlihat bahwa class memiliki dua unique value, yaitu '0' yang menyatakan jamur bisa dimakan dan '1' yang menyatakan jamur beracun. Namun, terlihat juga bahwa adanya imbalance data atau ketidakseimbangan data. nilai '0' memiliki baris data hingga nyaris 24000 baris data, sedangkan nilai '1' hanya memiliki sekitar 30000 baris data. Berangkat dari informasi ini, perlu dilakukan penyeimbangan agar tidak terjadi bias pada model machine learning yang akan dibangun.
 
+![image](https://github.com/user-attachments/assets/830d6a82-c1cd-4ae8-bf94-86515b4c0a9a)
+            Gambar 2. Univariate Analysis Numeric Column
+
+Berdasarkan Gambar 2., gambar ini menampilkan setiap kolom numerik yang ada pada dataset, cap-diameter, cap-shape, gill-attachment, gill-color,	stem-width , stem-color
+
+ - _Multivariate Analysis_
+
+    _Multivariate Analysis_ adalah prosedur statistik yang digunakan untuk memeriksa hubungan antara beberapa variabel secara bersamaan. Teknik ini mencakup berbagai metode seperti regresi berganda, analisis faktor, dan analisis kluster, yang membantu dalam memahami struktur dan pola yang kompleks dalam data dengan lebih dari satu variabel.
 Data Preparation
+![Untitled](https://github.com/user-attachments/assets/73496745-4224-4bc0-a499-6a59fa2909c6)
+ <div align="center">Gambar 3 - Multivariate Analysis Categorical Column - Every Numeric Column</div>
+
+![Untitled](https://github.com/user-attachments/assets/e89b7cb1-b772-437b-8afc-d7272907244c)
+ <div align="center">Gambar 4 - Multivariate Analysis Categorical Column - Numeric Column based on class</div>
+ Berdasarkan gambar kedua visualisasi data diatas, dapat terlihat nyaris semua variabel terpisah menunjukkan karakteristik atau pola khusus terhadap variabel label, yaitu 'Class'. 0 dan 1 (ditandai dengan warna oren dan biru)
+
+ - _Correlation_
+
+Uji Korelasi adalah metode statistik yang digunakan untuk menentukan apakah ada hubungan antara dua variabel kuantitatif dan seberapa kuat hubungan tersebut. Uji ini menghasilkan nilai koefisien korelasi, seperti Pearson atau Spearman, yang berkisar antara -1 hingga +1. Nilai mendekati +1 menunjukkan korelasi positif yang kuat, sedangkan nilai mendekati -1 menunjukkan korelasi negatif yang kuat. Nilai mendekati 0 menunjukkan tidak adanya korelasi. Uji korelasi penting dalam menentukan arah dan kekuatan hubungan antar variabel, yang dapat membantu dalam pemodelan prediktif dan analisis penyebab.
+
+   ![Untitled](https://github.com/user-attachments/assets/962667d3-5a75-4f77-8d0d-2b3eaa662eb5)
+   <div align="center">Gambar 4 - Multivariate Analysis Categorical Column - Numeric Column based on class</div>
+Berdasarkan  visualisasi diatas, terlihat bahwa kolom ```season```, ```gill color```, ```gill attachement```, memiliki skor korelasi yang paling kecil terhadap label. Kolom yang semacam ini baiknya di-drop saja untuk meringankan beban komputasi dan mengurangi dimensi dari dataset yang akan digunakan dalam pelatihan model
+
+- _Missing Value_
+
+    _Missing Values_ adalah data yang hilang atau tidak tercatat dalam dataset. Hal ini bisa terjadi karena berbagai alasan, seperti kesalahan entri data, kerusakan data, atau tidak tersedianya informasi saat pengumpulan data. Missing values dapat mempengaruhi kualitas model _machine learning_ dan hasil analisis statistik. Oleh karena itu, penting untuk mengidentifikasi, menganalisis, dan mengatasi missing values dengan metode seperti imputasi, di mana nilai yang hilang diganti dengan estimasi, atau dengan menghapus baris atau kolom yang terdampak.
+   <div align="center">Gambar 5 - Multivariate Analysis Categorical Column - Numeric Column based on class</div>
+
+Berdasarkan gambar diatas tidak ditemukan mising value
+
+# Data Preparation
+_Data Preparation_ adalah proses pembersihan, transformasi, dan pengorganisasian data mentah ke dalam format yang dapat dipahami oleh algoritma pembelajaran mesin. Berikut ini adalah **urutan** langkah-langkah Data Preparation yang dilakukan beserta penjelasan dan alasannya:
+
+- _Data Cleaning_
+  
+  _Data cleaning_ adalah adalah langkah penting dalam proses Machine Learning karena melibatkan identifikasi dan penghapusan data yang hilang, duplikat, atau tidak relevan yang terdapat pada dataset. Proses ini memiliki berbagai langkah yang perlu dilakukan supaya dataset siap digunakan untuk pembangunan model Machine Learning.
+    
+  **Alasan**: _Data Cleaning_ diperlukan agar data yang digunakan akurat, konsisten, dan bebas kesalahan, karena data yang salah atau tidak konsisten dapat berdampak negatif terhadap performa model Machine Learning
+    - _Detection and Removal Duplicates_
+      
+      Data duplikat adalah baris data yang sama persis untuk setiap variabel yang ada. Dataset yang digunakan perlu diperiksa juga apakah dataset memiliki data yang sama atau data duplikat. Jika ada, maka data tersebut harus ditangani dengan menghapus data duplikat tersebut.
+
+      **Alasan**: Data duplikat perlu didektesi dan dihapus karena jika dibiarkan pada dataset dapat membuat model Anda memiliki bias, sehingga menyebabkan _overfitting_. Dengan kata lain, model memiliki performa akurasi yang baik pada data pelatihan, tetapi buruk pada data baru. Menghapus data duplikat dapat membantu memastikan bahwa model Anda dapat menemukan pola yang ada lebih baik lagi.
+
+      Berikut ini adalah proses pendeteksian dan penghapusan data duplikatnya:
+      ```python
+      # Cek baris duplikat dalam dataset
+      duplicates = df.duplicated()
+      
+      # Hitung jumlah baris duplikat
+      duplicate_count = duplicates.sum()
+      
+      # Cetak jumlah baris duplikat
+      print(f"Number of duplicate rows: {duplicate_count}")
+
+      ```
+
+      Berikut ini adalah hasilnya:
+
+      ```python
+        Number of duplicate rows: 303
+      ```
+
+Berdasarkan hasil tersebut, ditemukan adanya 303 data duplikat.
+selanjutnya 
+```python
+dfclean=df.drop_duplicates()
+```
+Berikut ini adalah hasilnya:
+
+      ```python
+        Number of duplicate rows: 0
+      ```
+   
+- _Dropping Column with Low Correlation_
+      
+      Pada bagian ini adalah proses penghapusan fitur-fitur yang memiliki korelasi rendah terhadap variabel target dari dataset. Langkah ini diambil berdasarkan asumsi bahwa fitur dengan korelasi rendah tidak memberikan kontribusi signifikan terhadap prediksi yang dibuat oleh model.
+ 
+      **Alasan**: Tahapan ini perlu dilakukan karena fitur dengan korelasi rendah terhadap variabel target cenderung tidak memberikan informasi yang berguna untuk prediksi dan dapat menambahkan kebisingan yang tidak perlu ke dalam model. Dengan menghilangkan fitur-fitur ini, kita dapat mengurangi kompleksitas model, yang dapat membantu dalam mencegah _overfitting_ dan mempercepat waktu pelatihan. Selain itu, model yang lebih sederhana dengan fitur yang lebih sedikit lebih mudah untuk diinterpretasikan, yang memungkinkan kita untuk lebih memahami bagaimana fitur-fitur tersebut mempengaruhi variabel target. 
+
+
 
 Pada bagian ini Anda menerapkan dan menyebutkan teknik data preparation yang dilakukan. Teknik yang digunakan pada notebook dan laporan harus berurutan.
 
