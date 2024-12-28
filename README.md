@@ -250,6 +250,7 @@ Berikut ini adalah proses penghapusan kolom dengan korelasi yang rendah:
       ```
 Berikut ini adalah tampilan _dataframe_ setelah penghapusan beberapa kolom:
 ![image](https://github.com/user-attachments/assets/78662bcc-136e-43b5-a78f-7832fd97fe6a)
+
 Penghapusan kolom dengan korelasi rendah sudah berhasil dilakukan.
 
 - _Handle Missing Value_
@@ -273,35 +274,400 @@ class 	0
 dtype: int64
 ```
 
-Pada bagian ini Anda menerapkan dan menyebutkan teknik data preparation yang dilakukan. Teknik yang digunakan pada notebook dan laporan harus berurutan.
+  - _Outliers Detection and Removal_
+      
+_Outliers_ adalah titik data yang secara signifikan berbeda dari sebagian besar data dalam kumpulan data. Outliers dapat muncul karena variasi dalam pengukuran atau mungkin menunjukkan kesalahan eksperimental; dalam beberapa kasus, outliers bisa juga menunjukkan variabilitas yang sebenarnya dalam data. Penting untuk menganalisis outliers karena mereka dapat memiliki pengaruh besar pada hasil analisis statistik.
+ 
+Proses pembersihan outliers menggunakan metode IQR (Interquartile Range) melibatkan beberapa langkah:
+      
+   - Menghitung Kuartil: Tentukan kuartil pertama (Q1) dan kuartil ketiga (Q3) dari data. Kuartil ini membagi data menjadi empat bagian yang sama.
+   - Menghitung IQR: Hitung IQR dengan mengurangi Q1 dari Q3:
+          $$IQR=Q3−Q1$$
+   - Menentukan Batas Outliers:
+           Batas bawah untuk outliers:
+           $$Q1−1.5×IQR$$
+            
+           Batas atas untuk outliers:
+           $$Q3+1.5×IQR$$
+      - Identifikasi Outliers: Data yang berada di luar batas bawah dan atas ini dianggap sebagai outliers.
+        Pembersihan _Outliers_ yang teridentifikasi kemudian dapat dibersihkan dari dataset, baik dengan menghapusnya atau melakukan transformasi tertentu.
+    
+**Alasan**:_Outliers_ perlu dideteksi dan dihapus karena jika dibiarkan dapat merusak hasil analisis statistik pada kumpulan data sehingga menghasilkan performa model yang kurang baik. Selain itu, Mendeteksi dan menghapus _outlier_ dapat membantu meningkatkan performa model _Machine Learning_ menjadi lebih baik.
 
-Rubrik/Kriteria Tambahan (Opsional):
+![Untitled](https://github.com/user-attachments/assets/5ae544f3-3fdb-471d-9de2-46d66474f06d)
+ <div align="center">Gambar6 - Boxplots Outlier</div>
+Berdasarkan boxplots diatas, semua kolom numerik memiliki outliers-nya masing-masing. Outliers perlu dihapus untuk mendapatkan model dengan performa yang bagus.
+  Berikut ini adalah kode untuk menghapus _outliers_ yang ada pada dataframe:
+      ```python
+      # Assuming 'df' is your DataFrame
+      Q1 = df.quantile(0.25)
+      Q3 = df.quantile(0.75)
+      IQR = Q3 - Q1
+      
+      # Define bounds for what is considered an outlier
+      lower_bound = Q1 - 1.5 * IQR
+      upper_bound = Q3 + 1.5 * IQR
+      
+      # Remove outliers
+      df = dfclean[~((df < lower_bound) | (df > upper_bound)).any(axis=1)]
+      ```
+Penghapusan _outliers_ sudah berhasil dilakukan.
+- _Imbalance Data_
+      
+_Imbalance data_ adalah kondisi di mana kelas atau kategori dalam dataset tidak diwakili secara merata, dengan satu kelas mendominasi yang lain. Jika hal ini dibiarkan hingga proses pelatihan model dapat mengakibatkan bias pada model. Hal ini bisa diatasi dengan _oversampling_ atau _undersampling_.
 
-    Menjelaskan proses data preparation yang dilakukan
-    Menjelaskan alasan mengapa diperlukan tahapan data preparation tersebut.
+**Alasan**: Hal ini dapat menjadi masalah adalah karena _imbalance_ _data_ dapat menyebabkan model bias terhadap kelas mayoritas (lebih banyak) dan menghasilkan performa yang buruk pada kelas minoritas lebih sedikit)
+ Berikut ini adalah untuk memeriksa ada berapa baris data untuk masing-masing kelas pada kolom ```'Class'```:
+      ```python
+      count_0 = df[df['class'] == 0].shape[0]
+      count_1 = df[df['class'] == 1].shape[0]
+      print("Jumlah baris data yang bernilai '0' ada sebanyak: " + str(count_0))
+      print("Jumlah baris data yang bernilai '1' ada sebanyak: " + str(count_1))
+       ```
+Berikut ini adalah hasilnya:
+      ```python
+       Jumlah baris data yang bernilai '0' ada sebanyak: 19190
+      Jumlah baris data yang bernilai '1' ada sebanyak: 25484
+      ```
+Berdasarkan output diatas, dataset memiliki ketidakseimbangan jumlah kelas. Hal ini jika dibiarkan data mengakitbatkan bias-nya model.
+Untuk mengatasinya, dilakukan undersampling untuk kelas `0` agar menyesuaikanjumlah dengan kelas `1`.
+```python
+Melakukan undersampling
+df = df.groupby('class').apply(lambda x: x.sample(min(len(x), min(count_0, count_1)))).reset_index(drop=True)
+```
+ Berikut ini adalah untuk memeriksa ada berapa baris data untuk masing-masing kelas pada kolom ```'Class'```setelah dilakukan undersampling:
+      ```python
+      count_0 = df[df['class'] == 0].shape[0]
+      count_1 = df[df['class'] == 1].shape[0]
+      print("Jumlah baris data yang bernilai '0' ada sebanyak: " + str(count_0))
+      print("Jumlah baris data yang bernilai '1' ada sebanyak: " + str(count_1))
+       ```
+Berikut ini adalah hasilnya:
+      ```python
+       Jumlah baris data yang bernilai '0' ada sebanyak: 19190
+      Jumlah baris data yang bernilai '1' ada sebanyak: 19190
+      ``` 
+- _Train Test Split_
+  
+Train Test Split adalah metode yang digunakan untuk membagi dataset menjadi dua bagian: satu untuk melatih model (_training set_) dan satu lagi untuk menguji model (_testing set_). Biasanya, data dibagi dengan proporsi tertentu, misalnya 80% untuk training dan 20% untuk testing.
 
-Modeling
+**Alasan**: Proses ini dilakukan agar dapat mengevaluasi kinerja model secara objektif. Dengan memisahkan data uji, kita dapat mengukur seberapa baik model memprediksi data baru yang tidak pernah dilihat sebelumnya, yang merupakan indikator penting dari kemampuan generalisasi model.
 
-Tahapan ini membahas mengenai model sisten rekomendasi yang Anda buat untuk menyelesaikan permasalahan. Sajikan top-N recommendation sebagai output.
+Berikut adalah bagian untuk membagi dataset menjadi train set dan test set:
+ ```python
+X = df.drop(["class"], axis =1)
+y = df["class"]
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size = 0.2, random_state = 42)
+ ```
+```pyhton
+  train_count = X_train.shape
+  test_count = X_test.shape
+  print("Dataset training memiliki data sebanyak " + str(train_count[0]) + " baris")
+  print("Dataset test memiliki data sebanyak " + str(test_count[0]) + " baris")
+  ```
+Berikut ini adalah hasilnya:
+  ```python
+   Dataset training memiliki data sebanyak 30704 baris
+   Dataset test memiliki data sebanyak 7676 baris
+  ```
+Berikut ini adalah bagian untuk memeriksa ada berapa baris data untuk train dan test pada dataframe variabel label:
+  ```python
+  train_count_label = y_train.shape
+  test_count_label = y_test.shape
+  print("Dataset label training memiliki data sebanyak " + str(train_count_label[0]) + " baris")
+  print("Dataset label test memiliki data sebanyak " + str(test_count_label[0]) + " baris")
+  ```
 
-Rubrik/Kriteria Tambahan (Opsional):
+  Berikut ini adalah hasilnya:
+  ```pyhton
+   Dataset label training memiliki data sebanyak 30704 baris
+   Dataset label test memiliki data sebanyak 7676 baris
+  ```
+- Data Transformation
+  
+_Data Transformation_ adalah proses mengubah data dari satu format atau struktur ke format atau struktur lainnya. Proses ini biasanya dari format sistem sumber menjadi yang dibutuhkan oleh sistem tujuan. _Data Transformation_ dapat dilakukan dengan berbagai cara, seperti mengubah satuan ukuran data, mengubah distribusi data, atau mengubah bentuk data.
+    
+**Alasan**: Data Tranformasi perlu dilakukan karena dapat meningkatkan efisiensi dan meningkatkan kualitas data yang digunakan dalam pembuatan model _Machine Learning._
+    - Standardization
+ 
+Standardisasi adalah proses mengubah data menjadi format yang lebih seragam dan dapat dibandingkan. Ini biasanya melibatkan pengurangan rata-rata (mean) dan pembagian dengan simpangan baku (standard deviation) untuk setiap fitur, sehingga fitur tersebut akan memiliki rata-rata nol dan varians satu.
 
-    Menyajikan dua solusi rekomendasi dengan algoritma yang berbeda.
-    Menjelaskan kelebihan dan kekurangan dari solusi/pendekatan yang dipilih.
+**Alasan**: Standardisasi perlu dilakukan karena banyak algoritma _machine learning_ yang berperforma lebih baik jika fitur-fitur berada pada skala yang sama. Standardisasi membantu dalam hal ini dengan memastikan bahwa setiap fitur berkontribusi secara proporsional ke hasil akhir dan menghindari bias terhadap fitur dengan skala yang lebih besar.
 
-Evaluation
+Berikut ini adalah penerapan standardisasinya:
+```python
+X_train[:] = scaler.fit_transform(X_train[:])
 
-Pada bagian ini Anda perlu menyebutkan metrik evaluasi yang digunakan. Kemudian, jelaskan hasil proyek berdasarkan metrik evaluasi tersebut.
+Hasilnya 
+      	cap-diameter	cap-shape	stem-height	  stem-width	stem-color
+count	   30704.0000	    30704.0000	 30704.0000	  30704.0000	30704.0000
+mean	   -0.0000	      -0.0000	    0.0000	      0.0000	   0.0000
+std	   1.0000	      1.0000	    1.0000	      1.0000	   1.0000
+min	  -1.6702	      -1.9292	    -1.3074	      -1.4301	   -2.6081
+25%	  -0.7875	      -0.9925	    -0.8048	      -0.8133	   -0.7713
+50%	  -0.0973	      0.4125	    -0.2122	      -0.1398	   0.7594
+75%	  0.6602	         0.8808	    0.5994	       0.6500	   0.7594
+max	  2.9692	         0.8808	    3.1033	      3.0733	  1.0655
+ ```
+ Setelah dilakukannya standardisasinya, dapat kita cek hasilnya perubahannya dengan melihat mean dan standar deviasinya
+# Modelling
+Pada bagian ini, data yang yang sudah dibagi menjadi dua bagian menjadi _training dataset_ dan _test dataset_ siap untuk digunakan untuk pembangunan model _Machine Learning_-nya. Untuk kasus ini, digunakan 3 (tiga) _baseline model_ dari 3 algoritma yang berbeda. Berikut ini adalah ketiga algoritma tersebut:
+- Random Forest
+  - Kelebihan
+    - Akurasi tinggi
+      
+      Dengan menggunakan banyak pohon keputusan, Random Forest dapat mencapai tingkat akurasi yang tinggi dalam klasifikasi dan regresi.
+      
+    - Dapat menangani data dengan dimensi tinggi
+      
+      Mampu menangani masalah dengan sejumlah besar fitur dan data tanpa perlu pemilihan fitur.
+      
+    - _Robust_ terhadap _noise_ dan _outliers
+      
+      Tidak mudah dipengaruhi oleh noise dan outliers karena menggunakan metode bagging dan ensemble.
+      
+  - Kekurangan
+    - Mahal secara komputasi
+      
+      Membutuhkan lebih banyak sumber daya komputasi karena melibatkan pembangunan banyak pohon.
+      
+    - Butuh waktu lebih lama
+      
+      Proses pembelajaran dan prediksi bisa memakan waktu yang lama karena kompleksitas model.
+      
+    - Interpretabilitas
+      
+      Sulit untuk diinterpretasikan dan dipahami karena kompleksitas dari banyak pohon keputusan.
+      
+- KNN
+  - Kelebihan
+    - Sederhana dan Mudah Dipahami
+      
+      Algoritma ini intuitif dan mudah diimplementasikan.
+    
+    - Non-parametric
+      
+      Tidak membuat asumsi tentang distribusi data, cocok untuk data yang tidak normal.
+      
+    - Tidak perlu pelatihan
+      
+      Tidak ada fase pelatihan yang eksplisit, yang berarti baru pada saat prediksi data diuji
+      
+  - Kekurangan
+    - Sensitif terhadap _outliers_
+      
+      Kinerja bisa terpengaruh oleh keberadaan outliers.
+      
+    - Mahal secara komputasi
+      
+      Memerlukan perhitungan jarak dari setiap titik data ke titik lainnya, yang bisa sangat mahal secara komputasi.
+    
+    - Memerlukan pilihan K yang baik
+      
+      Pemilihan jumlah tetangga (K) yang tepat sangat penting untuk kinerja algoritma.
+      
+- SVM
+  - Kelebihan
+    - Efektif untuk data dengan dimensi tinggi
+      
+       Bekerja dengan baik pada data yang memiliki banyak fitur.
+      
+    - Serbaguna
+      
+      Kernel yang berbeda dapat digunakan untuk keputusan batas yang berbeda.
+      
+    - Robust
+      
+      Tidak terlalu dipengaruhi oleh outliers dan mampu menghasilkan model yang optimal dengan margin yang maksimal.
+      
+  - Kekurangan
+    - Sensitif terhadap pilihan Kernel
+      
+      Pemilihan kernel yang tepat sangat penting dan bisa mempengaruhi kinerja model.
+    - Membutuhkan penyetelan Hyperparameter
+    
+      Penyetelan hyperparameter seperti C, gamma, dan kernel memerlukan waktu dan usaha.
+    
+    - _Training Cost_
+      
+      Biaya pelatihan bisa tinggi, terutama untuk dataset yang besar.
+Kemudian, _baseline model_ dari ketiga algoritma tersebut yang memiliki akurasi tertinggi digunakan untuk ke tahap selanjutnya. Selanjutnya, algoritma tersebut digunakan kembali untuk pembangunan model, tetapi dengan memanfaatkan _hyperparameter_ yang ada sehingga mendapatkan hasil terbaik. Untuk menemukan _hyperparamter_ yang memberikan hasil terbaik, ```GridSearch``` digunakan ke model yang terpilih.
 
-Ingatlah, metrik evaluasi yang digunakan harus sesuai dengan konteks data, problem statement, dan solusi yang diinginkan.
+Berikut ini adalah hasil dari _baseline model_ untuk ketiga model:
 
-Rubrik/Kriteria Tambahan (Opsional):
+       train	    test
+KNN	0.000934	   0.000908
+SVM	0.000645	   0.000658
+RF	   0.001	      0.000913
 
-    Menjelaskan formula metrik dan bagaimana metrik tersebut bekerja.
+![image](https://github.com/user-attachments/assets/798f823b-e928-47e3-b7da-f50380b0d23e)
+<div align="center">Gambar7 - Baseline Model Train Test Results</div>
+![Untitled](https://github.com/user-attachments/assets/c37767ff-5844-4796-b73c-e2d139cbb0a4)
+div align="center">Gambar8 - Baseline Model All Results</div>
 
----Ini adalah bagian akhir laporan---
+Model Random Forest terpilih sebagai model yang akan digunakan lebih lanjut dengan hyperparamter tuning karena memiliki performa train dan test yang tertinggi dibandingkan dengan 2 model lainnya. Kemudian, hasil Accuracy, Precision, Recall, dan F1 Score dari Random Forest juga menunjukkan hasil yang terbaik.
 
-Catatan:
+Berikut ini adalah proses improvement hyperparameter tuning menggunakan GridSearch:
+```python
+param_grid = {
+    'n_estimators': [100, 200, 300, 400, 500],
+    'max_depth': [2, 4, 6, 8, 10],
+    'min_samples_split': [2, 5, 10],
+    'min_samples_leaf': [1, 2, 4]
+}
+rf = RandomForestClassifier(
+grid_search = GridSearchCV(estimator=rf, param_grid=param_grid, cv=3, n_jobs=-1, verbose=2)
+grid_search.fit(X_train, y_train)
+best_params = grid_search.best_params_
+best_score = grid_search.best_score_
+
+print(f"Best parameters: {best_params}")
+print(f"Best cross-validation score (accuracy): {best_score}")
+```
+
+Berikut ini adalah hasil dari _grid search_:
+```python
+Fitting 3 folds for each of 225 candidates, totalling 675 fits
+Best parameters: {'max_depth': 10, 'min_samples_leaf': 1, 'min_samples_split': 2, 'n_estimators': 400}
+Best cross-validation score (accuracy): 0.8838588238603743
+```
+
+Berdasarkan hasil dari proses `GridSearch`, kombinasi parameter yang terbaik adalah:
+   - `max_depth`: 10
+  - `min_samples_leaf`: 1
+  - `min_samples_split`: 2,
+  - `n_estimators`: 400
+Berikut ini adalah penjelasan dari keempat parameter tersebut:
+
+  - `max_depth`: 10
+    Ini menentukan kedalaman maksimum pohon. Dalam kasus ini, pohon tidak akan tumbuh lebih dari 10 tingkat. Kedalaman yang lebih besar bisa meningkatkan keakuratan model tetapi juga meningkatkan risiko overfitting.
+    
+  - `min_samples_leaf`: 1
+    Ini adalah jumlah sampel minimum yang diperlukan untuk menjadi daun pohon. Jadi, setiap daun harus memiliki setidaknya 1 sampel. Parameter ini membantu mengontrol overfitting dengan memastikan bahwa daun tidak terlalu spesifik hanya pada sampel pelatihan.
+    
+  - `min_samples_split`: 2,
+    Ini menunjukkan jumlah sampel minimum yang diperlukan untuk membagi simpul internal. Sebuah simpul akan dibagi jika memiliki 2 atau lebih sampel. Ini juga membantu mencegah overfitting dengan memastikan bahwa pembagian tidak terlalu spesifik.
+    
+  - `n_estimators`: 400
+    Ini menunjukkan jumlah pohon dalam forest. Di sini, model akan menggunakan 400 pohon. Biasanya, semakin banyak pohon, semakin stabil prediksi model, tetapi juga akan membutuhkan lebih banyak waktu komputasi dan memori.
+    
+Hasil dari `GridSearc` tersebut digunakan sebagai _hyperparameter_ pembangunan model.
+
+# Evaluation
+Ketika model sudah dibangun dan sudah melakukan uji dengan data test, perlu dilakukan evaluasi untuk melihat performa dari model tersebut. Untuk melakukan proses evaluasi model klasifikasi biner digunakan metrik ```Accuracy```, ```Precision```, ```Recall```, dan ```F1 Score``` dari _Confusion Matrix_.
+
+![Untitled](https://github.com/user-attachments/assets/dbbfe93e-f50c-4953-9076-9f94bf22e0f1)
+div align="center">Gambar 9 - Confusion Matrix</div>
+
+<br>
+
+_Confusion Matrix_ adalah tabel yang digunakan untuk mengevaluasi performa model klasifikasi. Ini adalah tabel yang menunjukkan jumlah prediksi yang benar dan salah yang dibuat oleh model dengan membaginya ke dalam empat kategori:
+
+- **True Positives (TP):**
+  
+  Ini adalah kasus-kasus di mana model dengan benar mengidentifikasi kelas positif. Misalnya, dalam konteks klasifikasi air ketika air yang layak minum dan model juga meprediksi hal yang sama.
+  
+- **True Negatives (TN):**
+  
+  Ini adalah kasus-kasus di mana model dengan benar mengidentifikasi kelas negatif. Menggunakan contoh yang sama, ini ketika air yang tidak layak minum dan model juga meprediksi hal yang sama.
+  
+- **False Positives (FP):**
+  
+  Dikenal juga sebagai ‘Type I error’, ini adalah kasus-kasus di mana model salah mengidentifikasi kelas negatif sebagai positif. Dalam konteks klasifikasi air ketika air yang tidak layak minum, tetapi model memprediksikan bahwa air tersrbut layak minum.
+
+- **False Negatives (FN):**
+  
+  Dikenal juga sebagai ‘Type II error’, ini adalah kasus-kasus di mana model salah mengidentifikasi kelas positif sebagai negatif. Dalam konteks klasifikasi air ketika air yang layak minum, tetapi model memprediksikan bahwa air tersebut tidak layak minum.
+
+Kemudian, berikut ini terkait ```Accuracy```, ```Precision```, ```Recall```, dan ```F1 Score``` dan cara kerjanya:
+
+- ```Accuracy```
+
+  $$Accuracy = TP + TN / TP + TN + FP + FN$$
+
+  Akurasi adalah ukuran seberapa sering prediksi model benar dan dihitung sebagai jumlah prediksi yang benar dibagi dengan jumlah total prediksi. Akurasi memberikan informasi umum tentang performa model di semua kelas.
+
+- ```Precision```
+
+  $$Precision = TP / TP + FP$$
+
+  _Precision_ mengukur proporsi prediksi positif yang benar-benar positif dan dihitung sebagai jumlah _True Positives_ dibagi dengan jumlah _True Positives_ dan _False Positives_. _Precision_ penting ketika kita ingin meminimalisir _False Positives_
+
+- ```Recall```
+
+
+  $$Recall = TP / TP + FN$$
+
+
+  _Recall_ mengukur proporsi positif aktual yang diidentifikasi dengan benar dan dihitung sebagai jumlah _True Positives_ dibagi dengan jumlah _True Positives_ dan _False Negatives_. _Recall_ penting ketika biaya dari _False Negative_ tinggi, seperti di kasus medis atau keamanan.
+
+- ```F1 Score```
+
+
+  $$F1 Score = Precision  .  Recall / Precision + Recall$$
+
+  
+  F1 Score adalah rata-rata harmonik dari presisi dan recall, memberikan keseimbangan antara keduanya, terutama ketika ada distribusi kelas yang tidak seimbang. _F1 Score_ berguna ketika kita membutuhkan keseimbangan antara _presisi_ dan _recall_, dan ketika distribusi kelas tidak seimbang.
+
+Berikut ini adalah hasil evaluasi model menggunakan metrik ```Accuracy```, ```Precision```, ```Recall```, dan ```F1 Score``` dari _Confusion Matrix_:
+
+Berikut ini adalah ```Accuracy``` dengan menggunakan _dataset_ `test`:
+
+```python
+best_model = grid_search.best_estimator
+y_pred = best_model.predict(X_test)
+accuracy = metrics.accuracy_score(y_test, y_pred)
+print(f"Test Accuracy: {accuracy}")
+```
+Hasilnya
+```python
+Test Accuracy: 0.8823606044815008
+```
+Hasil diatas menujukkan bahwa Accuracy model menggunakan dataset test sebesar 88%. Hasilnya lebih kecil dibandingkan dengan baseline model dari Random Forest tanpa hyperparameter tuning.
+
+Berikut ini adalah Visualisasi dari Confusin Matrix:
+![Untitled](https://github.com/user-attachments/assets/3215522a-7a03-4afd-aac9-06437569dde9)
+div align="center">Gambar 10 - Visualisasi Confusion Matrix</div>
+<br>
+
+Berdasarkan visualisasi data diatas, hasilnya dapat dirincikan sebagai berikut:
+- True Positive (TP): 3599
+- True Negative (TN): 3174
+- False Positive (FP): 687
+- False Negative (FN): 216
+
+Berikut ini adalah laporan lengkap terkait evaluasi model dengan metrik lainnya yang juga digunakan:
+```python
+accuracy = metrics.accuracy_score(y_test, y_pred)
+precision = metrics.precision_score(y_test, y_pred, average='weighted')
+recall = metrics.recall_score(y_test, y_pred, average='weighted')
+f1 = metrics.f1_score(y_test, y_pred, average='weighted')
+
+classification_report = metrics.classification_report(y_test, y_pred)
+print(f"Classification Report :\n{classification_report}")
+```
+
+Berikut ini adalah hasil dari kode diatas:
+
+```python
+Classification Report :
+              precision    recall  f1-score   support
+
+           0       0.84      0.94      0.89      3815
+           1       0.94      0.82      0.88      3861
+
+    accuracy                           0.88      7676
+   macro avg       0.89      0.88      0.88      7676
+weighted avg       0.89      0.88      0.88      7676    
+````
+
+Berdasarkan output diatas, berikut ini adalah hasil akhir dari model yang dibangun dengan algoritma `Random Forest` dengan hyperparameter tuning:
+- `Accuracy` : 0.88
+- `Precision`: 0.88
+- `Recall`: 0.88
+- `F1-Score`: 0.88
+
+## Referensi
 
 ####   [1] Temesgen, Tasisa. 2018. “Application of Mushroom as Food and Medicine.” Advances in Biotechnology & Microbiology 11(4). doi:10.19080/aibm.2018.11.555817.
 ####   [2] Frutos, P., F. Martínez Peña, P. Ortega Martínez, and S. Esteban. 2009. “Estimating the Social Benefits of Recreational Harvesting of Edible Wild Mushrooms Using Travel Cost Methods.” Forest Systems 18(3):235. doi:10.5424/fs/2009183-01065.
