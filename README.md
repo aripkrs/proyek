@@ -1,4 +1,4 @@
-![Untitled](https://github.com/user-attachments/assets/cf25bd91-0161-498a-b768-47ea2257986c)# Laporan Proyek Machine Learning Mushroom Classification - Arip Kristiyanto
+# Laporan Proyek Machine Learning Mushroom Classification - Arip Kristiyanto
 
 ## Domain Proyek
 
