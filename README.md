@@ -1,4 +1,4 @@
-# Laporan Proyek Machine Learning Mushroom Classification - Arip Kristiyanto
+![Untitled](https://github.com/user-attachments/assets/cf25bd91-0161-498a-b768-47ea2257986c)# Laporan Proyek Machine Learning Mushroom Classification - Arip Kristiyanto
 
 ## Domain Proyek
 
@@ -97,21 +97,21 @@ memory usage: 3.7 MB
 Selanjutnya 
 ``` python
 # Menampilkan statistika deskriptif unuk setiap kolom
-
 df.describe()
   ```
 Hasilnya
-```
-        cap-diameter	 cap-shape	     gill-attachment	gill-color	    stem-height	    stem-width	    stem-color	    season	        class
-count    54035.000000	 54035.000000	 54035.000000	    54035.000000	54035.000000	54035.000000	54035.000000	54035.000000	54035.000000
-mean     567.257204	     4.000315	     2.142056	        7.329509	    0.759110	    1051.081299	    8.418062	    0.952163	    0.549181
-std	     359.883763	     2.160505	     2.228821	        3.200266	    0.650969	    782.056076	    3.262078	    0.305594	    0.497580
-min	     0.000000	     0.000000	     0.000000	        0.000000	    0.000426	    0.000000	    0.000000	    0.027372	    0.000000
-25%	     289.000000	     2.000000	     0.000000	        5.000000	    0.270997	    421.000000	    6.000000	    0.888450	    0.000000
-50%	     525.000000	     5.000000	     1.000000	        8.000000	    0.593295	    923.000000	    11.000000	    0.943195	    1.000000
-75%	     781.000000	     6.000000	     4.000000	        10.000000	    1.054858	    1523.000000	    11.000000	    0.943195	    1.000000
-max	     1891.000000	 6.000000	     6.000000	        11.000000	    3.835320	    3569.000000	    12.000000	    1.804273	    1.000000
-```
+
+|    |cap-diameter	 |cap-shape	  |   gill-attachment	|gill-color	 |   stem-height	|    stem-width	|    stem-color	|    season	    |    class|
+|:------|-----------:|-----------:|----------:|--------------:|----------:|----------:|----------:|----------:|----------:|
+|count   | 54035.000000	| 54035.000000	| 54035.000000	|    54035.000000	|54035.000000	|54035.000000	|54035.000000	|54035.000000	|54035.000000|
+|mean   |  567.257204	|     4.000315	 |    2.142056	|        7.329509	|    0.759110	|    1051.081299	|    8.418062|    0.952163	|    0.549181|
+|std	  |   359.883763	|     2.160505	  |  2.228821	  |      3.200266	|   0.650969	|    782.056076	 |   3.262078	|    0.305594	  |  0.497580|
+|min	|     0.000000	|   0.000000	|     0.000000	|        0.000000	 |   0.000426	|    0.000000	|    0.000000	|    0.027372|	    0.000000|
+|25%	  |   289.000000	|     2.000000	  |   0.000000	  |      5.000000	 |   0.270997	|    421.000000|	    6.000000	|    0.888450	  |  0.000000|
+|50%	  |   525.000000	|     5.000000	 |    1.000000	  |      8.000000	|    0.593295	|    923.000000	|    11.000000|	    0.943195	|    1.000000|
+|75%	 |    781.000000	  |   6.000000	  |   4.000000	    |    10.000000	|    1.054858	|    1523.000000	|    11.000000|	    0.943195	|    1.000000|
+|max	  |   1891.000000	| 6.000000	|     6.000000	 |       11.000000	|    3.835320	 |   3569.000000	  |  12.000000	|    1.804273	|    1.000000|
+
 Berdasarkan _output_ tersebut, didapatkan informasi mengenai statistika deskriptif dari _dataset_ yang digunakan. Berikut ini adalah keterangan untuk setiap bagian:
    * ```count``` : Jumlah data dari sebuah kolom
    * ```mean``` : Rata-rata dari sebuah kolom
@@ -215,7 +215,7 @@ plt.tight_layout()
 plt.show()
 ```
 ![Untitled](https://github.com/user-attachments/assets/f2190683-a27c-450f-b753-474ddeab557b)
- <div align="center">Gambar 5 - Outlier class</div>
+ <div align="center">Gambar 5 - Outlier</div>
 Berdasarkan boxplots diatas, semua kolom numerik memiliki outliers-nya masing-masing. Outliers perlu dihapus untuk mendapatkan model dengan performa yang bagus.
 
 ## Data Preparation
@@ -305,11 +305,12 @@ Proses pembersihan outliers menggunakan metode IQR (Interquartile Range) melibat
         Pembersihan _Outliers_ yang teridentifikasi kemudian dapat dibersihkan dari dataset, baik dengan menghapusnya atau melakukan transformasi tertentu.
     
 **Alasan**:_Outliers_ perlu dideteksi dan dihapus karena jika dibiarkan dapat merusak hasil analisis statistik pada kumpulan data sehingga menghasilkan performa model yang kurang baik. Selain itu, Mendeteksi dan menghapus _outlier_ dapat membantu meningkatkan performa model _Machine Learning_ menjadi lebih baik.
+
 **Berdasarkan boxplots dalam data uderstanding, semua kolom numerik memiliki outliers-nya masing-masing. Outliers perlu dihapus untuk mendapatkan model dengan performa yang bagus.**
 
   Berikut ini adalah kode untuk menghapus _outliers_ yang ada pada dataframe:
 ```python
-# Assuming 'df' is your DataFrame
+# Assuming 'dfclean' is your DataFrame
 Q1 = dfclean.quantile(0.25)
 Q3 = dfclean.quantile(0.75)
 IQR = Q3 - Q1
@@ -339,59 +340,62 @@ Penghapusan _outliers_ sudah berhasil dilakukan.
 Imbalance data adalah kondisi di mana kelas atau kategori dalam dataset tidak diwakili secara merata, dengan satu kelas mendominasi yang lain. Jika hal ini dibiarkan hingga proses pelatihan model dapat mengakibatkan bias pada model. Hal ini bisa diatasi dengan _oversampling_ atau _undersampling_.
 
 **Alasan**: Hal ini dapat menjadi masalah adalah karena _imbalance_ _data_ dapat menyebabkan model bias terhadap kelas mayoritas (lebih banyak) dan menghasilkan performa yang buruk pada kelas minoritas lebih sedikit)
- Berikut ini adalah untuk memeriksa ada berapa baris data untuk masing-masing kelas pada kolom ```'Class'```:
-      ```python
-      count_0 = df[df['class'] == 0].shape[0]
-      count_1 = df[df['class'] == 1].shape[0]
-      print("Jumlah baris data yang bernilai '0' ada sebanyak: " + str(count_0))
-      print("Jumlah baris data yang bernilai '1' ada sebanyak: " + str(count_1))
-       ```
+ Berikut ini adalah untuk memeriksa ada berapa baris data untuk masing-masing kelas pada kolom 'Class':
+ ```python
+ count_0 = df[df['class'] == 0].shape[0]
+ count_1 = df[df['class'] == 1].shape[0]
+ print("Jumlah baris data yang bernilai '0' ada sebanyak: " + str(count_0))
+ print("Jumlah baris data yang bernilai '1' ada sebanyak: " + str(count_1))
+ ```
 Berikut ini adalah hasilnya:
-      ```python
-       Jumlah baris data yang bernilai '0' ada sebanyak: 19190
-      Jumlah baris data yang bernilai '1' ada sebanyak: 25484
-      ```
+```python
+Jumlah baris data yang bernilai '0' ada sebanyak: 23144
+Jumlah baris data yang bernilai '1' ada sebanyak: 27523
+```
 Berdasarkan output diatas, dataset memiliki ketidakseimbangan jumlah kelas. Hal ini jika dibiarkan data mengakitbatkan bias-nya model.
 Untuk mengatasinya, dilakukan undersampling untuk kelas `0` agar menyesuaikanjumlah dengan kelas `1`.
+
 ```python
-Melakukan undersampling
+#Melakukan undersampling
 df = df.groupby('class').apply(lambda x: x.sample(min(len(x), min(count_0, count_1)))).reset_index(drop=True)
 ```
- Berikut ini adalah untuk memeriksa ada berapa baris data untuk masing-masing kelas pada kolom ```'Class'```setelah dilakukan undersampling:
-      ```python
-      count_0 = df[df['class'] == 0].shape[0]
-      count_1 = df[df['class'] == 1].shape[0]
-      print("Jumlah baris data yang bernilai '0' ada sebanyak: " + str(count_0))
-      print("Jumlah baris data yang bernilai '1' ada sebanyak: " + str(count_1))
-       ```
+Berikut ini adalah untuk memeriksa ada berapa baris data untuk masing-masing kelas pada kolom 'Class' setelah dilakukan undersampling:
+```python
+count_0 = df[df['class'] == 0].shape[0]
+count_1 = df[df['class'] == 1].shape[0]
+print("Jumlah baris data yang bernilai '0' ada sebanyak: " + str(count_0))
+print("Jumlah baris data yang bernilai '1' ada sebanyak: " + str(count_1))
+```
 Berikut ini adalah hasilnya:
-      ```python
-       Jumlah baris data yang bernilai '0' ada sebanyak: 19190
-      Jumlah baris data yang bernilai '1' ada sebanyak: 19190
-      ``` 
-- _Train Test Split_
+```python
+Jumlah baris data yang bernilai '0' ada sebanyak: 23144
+Jumlah baris data yang bernilai '1' ada sebanyak: 23144
+```
+Berdasarkan output diatas, dataset memiliki sudah jumlah kelasnya sudah seimbang. `0` dan `1` sudah memiliki jumlah baris data yang sama. 
+### Train Test Split_
   
 Train Test Split adalah metode yang digunakan untuk membagi dataset menjadi dua bagian: satu untuk melatih model (_training set_) dan satu lagi untuk menguji model (_testing set_). Biasanya, data dibagi dengan proporsi tertentu, misalnya 80% untuk training dan 20% untuk testing.
 
 **Alasan**: Proses ini dilakukan agar dapat mengevaluasi kinerja model secara objektif. Dengan memisahkan data uji, kita dapat mengukur seberapa baik model memprediksi data baru yang tidak pernah dilihat sebelumnya, yang merupakan indikator penting dari kemampuan generalisasi model.
 
 Berikut adalah bagian untuk membagi dataset menjadi train set dan test set:
- ```python
+```python
 X = df.drop(["class"], axis =1)
 y = df["class"]
 X_train, X_test, y_train, y_test = train_test_split(X, y, test_size = 0.2, random_state = 42)
- ```
+```
+Proses train test split berhasil dilakukan. Dataset dibagi menjadi 80% untuk train dan 20% untuk test.
 ```pyhton
-  train_count = X_train.shape
-  test_count = X_test.shape
-  print("Dataset training memiliki data sebanyak " + str(train_count[0]) + " baris")
-  print("Dataset test memiliki data sebanyak " + str(test_count[0]) + " baris")
-  ```
+train_count = X_train.shape
+test_count = X_test.shape
+print("Dataset training memiliki data sebanyak " + str(train_count[0]) + " baris")
+print("Dataset test memiliki data sebanyak " + str(test_count[0]) + " baris")
+```
 Berikut ini adalah hasilnya:
-  ```python
-   Dataset training memiliki data sebanyak 30704 baris
-   Dataset test memiliki data sebanyak 7676 baris
-  ```
+```python
+Dataset training memiliki data sebanyak 37030 baris
+Dataset test memiliki data sebanyak 9258 baris
+```
 Berikut ini adalah bagian untuk memeriksa ada berapa baris data untuk train dan test pada dataframe variabel label:
   ```python
   train_count_label = y_train.shape
@@ -402,16 +406,17 @@ Berikut ini adalah bagian untuk memeriksa ada berapa baris data untuk train dan 
 
   Berikut ini adalah hasilnya:
   ```pyhton
-   Dataset label training memiliki data sebanyak 30704 baris
-   Dataset label test memiliki data sebanyak 7676 baris
+  Dataset label training memiliki data sebanyak 37030 baris
+ Dataset label test memiliki data sebanyak 9258 baris
   ```
-- Data Transformation
+### Data Transformation
   
-_Data Transformation_ adalah proses mengubah data dari satu format atau struktur ke format atau struktur lainnya. Proses ini biasanya dari format sistem sumber menjadi yang dibutuhkan oleh sistem tujuan. _Data Transformation_ dapat dilakukan dengan berbagai cara, seperti mengubah satuan ukuran data, mengubah distribusi data, atau mengubah bentuk data.
+Data Transformation adalah proses mengubah data dari satu format atau struktur ke format atau struktur lainnya. Proses ini biasanya dari format sistem sumber menjadi yang dibutuhkan oleh sistem tujuan. _Data Transformation_ dapat dilakukan dengan berbagai cara, seperti mengubah satuan ukuran data, mengubah distribusi data, atau mengubah bentuk data.
     
 **Alasan**: Data Tranformasi perlu dilakukan karena dapat meningkatkan efisiensi dan meningkatkan kualitas data yang digunakan dalam pembuatan model _Machine Learning._
-    - Standardization
- 
+
+#### Standardization
+
 Standardisasi adalah proses mengubah data menjadi format yang lebih seragam dan dapat dibandingkan. Ini biasanya melibatkan pengurangan rata-rata (mean) dan pembagian dengan simpangan baku (standard deviation) untuk setiap fitur, sehingga fitur tersebut akan memiliki rata-rata nol dan varians satu.
 
 **Alasan**: Standardisasi perlu dilakukan karena banyak algoritma _machine learning_ yang berperforma lebih baik jika fitur-fitur berada pada skala yang sama. Standardisasi membantu dalam hal ini dengan memastikan bahwa setiap fitur berkontribusi secara proporsional ke hasil akhir dan menghindari bias terhadap fitur dengan skala yang lebih besar.
@@ -419,20 +424,22 @@ Standardisasi adalah proses mengubah data menjadi format yang lebih seragam dan 
 Berikut ini adalah penerapan standardisasinya:
 ```python
 X_train[:] = scaler.fit_transform(X_train[:])
-
+```
 Hasilnya 
-      	cap-diameter	cap-shape	stem-height	  stem-width	stem-color
-count	   30704.0000	    30704.0000	 30704.0000	  30704.0000	30704.0000
-mean	   -0.0000	      -0.0000	    0.0000	      0.0000	   0.0000
-std	   1.0000	      1.0000	    1.0000	      1.0000	   1.0000
-min	  -1.6702	      -1.9292	    -1.3074	      -1.4301	   -2.6081
-25%	  -0.7875	      -0.9925	    -0.8048	      -0.8133	   -0.7713
-50%	  -0.0973	      0.4125	    -0.2122	      -0.1398	   0.7594
-75%	  0.6602	         0.8808	    0.5994	       0.6500	   0.7594
-max	  2.9692	         0.8808	    3.1033	      3.0733	  1.0655
- ```
- Setelah dilakukannya standardisasinya, dapat kita cek hasilnya perubahannya dengan melihat mean dan standar deviasinya
-# Modelling
+| |cap-diameter| 	cap-shape| 	stem-height| 	stem-width 	|stem-color|
+|:------|-----------:|-----------:|----------:|--------------:|----------:|
+|count 	|37030.0000 	|37030.0000| 	37030.0000 |	37030.0000| 	37030.0000|
+|mean 	|0.0000 	|0.0000 	|-0.0000 	|-0.0000 	|0.0000|
+|std 	|1.0000 	|1.0000 	|1.0000 |	1.0000 	|1.0000|
+|min 	|-1.6472 	|-1.8810 	|-1.3005 	|-1.3952 	|-2.5834|
+|25% 	|-0.7839 	|-0.9488 	|-0.8060 	|-0.8195 	|-0.7422|
+|50% 	|-0.1053 	|0.4494 	|-0.2151 	|-0.1578 	|0.7922|
+|75% 	|0.6641 	|0.9155 	|0.5990 	|0.6510 	|0.7922|
+|max 	|2.9571 	|0.9155 	|3.0086 	|3.0024 	|1.0991|
+
+Setelah dilakukannya standardisasinya, dapat kita cek hasilnya perubahannya dengan melihat mean dan standar deviasinya
+
+## Modelling
 Pada bagian ini, data yang yang sudah dibagi menjadi dua bagian menjadi _training dataset_ dan _test dataset_ siap untuk digunakan untuk pembangunan model _Machine Learning_-nya. Untuk kasus ini, digunakan 3 (tiga) _baseline model_ dari 3 algoritma yang berbeda. Berikut ini adalah ketiga algoritma tersebut:
 - Random Forest
   - Kelebihan
@@ -512,20 +519,21 @@ Pada bagian ini, data yang yang sudah dibagi menjadi dua bagian menjadi _trainin
     
     - _Training Cost_
       
-      Biaya pelatihan bisa tinggi, terutama untuk dataset yang besar.
+  Biaya pelatihan bisa tinggi, terutama untuk dataset yang besar.
 Kemudian, _baseline model_ dari ketiga algoritma tersebut yang memiliki akurasi tertinggi digunakan untuk ke tahap selanjutnya. Selanjutnya, algoritma tersebut digunakan kembali untuk pembangunan model, tetapi dengan memanfaatkan _hyperparameter_ yang ada sehingga mendapatkan hasil terbaik. Untuk menemukan _hyperparamter_ yang memberikan hasil terbaik, ```GridSearch``` digunakan ke model yang terpilih.
 
 Berikut ini adalah hasil dari _baseline model_ untuk ketiga model:
 
-       train	    test
-KNN	0.000934	   0.000908
-SVM	0.000645	   0.000658
-RF	   0.001	      0.000913
+|     |    train	|    test|
+|:----|----------:|------------:|
+|KNN 	|0.000936 	|0.000909|
+|SVM|	0.000638 	|0.000646|
+|RF 	|0.001 	|0.000916| 
 
-![image](https://github.com/user-attachments/assets/798f823b-e928-47e3-b7da-f50380b0d23e)
-<div align="center">Gambar7 - Baseline Model Train Test Results</div>
-![Untitled](https://github.com/user-attachments/assets/c37767ff-5844-4796-b73c-e2d139cbb0a4)
-div align="center">Gambar8 - Baseline Model All Results</div>
+![Untitled](https://github.com/user-attachments/assets/d91de7fc-0c22-42f0-8db7-736ae7698aff)
+<div align="center">Gambar 6 - Baseline Model Train Test Results</div>
+![Untitled-1](https://github.com/user-attachments/assets/8c6d82aa-9c6b-4e12-868d-bc18ae556404)
+div align="center">Gambar 7 - Baseline Model All Results</div>
 
 Model Random Forest terpilih sebagai model yang akan digunakan lebih lanjut dengan hyperparamter tuning karena memiliki performa train dan test yang tertinggi dibandingkan dengan 2 model lainnya. Kemudian, hasil Accuracy, Precision, Recall, dan F1 Score dari Random Forest juga menunjukkan hasil yang terbaik.
 
@@ -550,15 +558,15 @@ print(f"Best cross-validation score (accuracy): {best_score}")
 Berikut ini adalah hasil dari _grid search_:
 ```python
 Fitting 3 folds for each of 225 candidates, totalling 675 fits
-Best parameters: {'max_depth': 10, 'min_samples_leaf': 1, 'min_samples_split': 2, 'n_estimators': 400}
-Best cross-validation score (accuracy): 0.8838588238603743
+Best parameters: {'max_depth': 10, 'min_samples_leaf': 1, 'min_samples_split': 5, 'n_estimators': 400}
+Best cross-validation score (accuracy): 0.8856332380672297
 ```
 
 Berdasarkan hasil dari proses `GridSearch`, kombinasi parameter yang terbaik adalah:
-   - `max_depth`: 10
-  - `min_samples_leaf`: 1
-  - `min_samples_split`: 2,
-  - `n_estimators`: 400
+ * `max_depth`: 10
+ * `min_samples_leaf`: 1
+ * `min_samples_split`: 5,
+ * `n_estimators`: 400
 Berikut ini adalah penjelasan dari keempat parameter tersebut:
 
   - `max_depth`: 10
@@ -567,8 +575,8 @@ Berikut ini adalah penjelasan dari keempat parameter tersebut:
   - `min_samples_leaf`: 1
     Ini adalah jumlah sampel minimum yang diperlukan untuk menjadi daun pohon. Jadi, setiap daun harus memiliki setidaknya 1 sampel. Parameter ini membantu mengontrol overfitting dengan memastikan bahwa daun tidak terlalu spesifik hanya pada sampel pelatihan.
     
-  - `min_samples_split`: 2,
-    Ini menunjukkan jumlah sampel minimum yang diperlukan untuk membagi simpul internal. Sebuah simpul akan dibagi jika memiliki 2 atau lebih sampel. Ini juga membantu mencegah overfitting dengan memastikan bahwa pembagian tidak terlalu spesifik.
+  - `min_samples_split`: 5,
+    Ini menunjukkan jumlah sampel minimum yang diperlukan untuk membagi simpul internal. Sebuah simpul akan dibagi jika memiliki 5 atau lebih sampel. Ini juga membantu mencegah overfitting dengan memastikan bahwa pembagian tidak terlalu spesifik.
     
   - `n_estimators`: 400
     Ini menunjukkan jumlah pohon dalam forest. Di sini, model akan menggunakan 400 pohon. Biasanya, semakin banyak pohon, semakin stabil prediksi model, tetapi juga akan membutuhkan lebih banyak waktu komputasi dan memori.
@@ -578,8 +586,9 @@ Hasil dari `GridSearc` tersebut digunakan sebagai _hyperparameter_ pembangunan m
 # Evaluation
 Ketika model sudah dibangun dan sudah melakukan uji dengan data test, perlu dilakukan evaluasi untuk melihat performa dari model tersebut. Untuk melakukan proses evaluasi model klasifikasi biner digunakan metrik ```Accuracy```, ```Precision```, ```Recall```, dan ```F1 Score``` dari _Confusion Matrix_.
 
-![Untitled](https://github.com/user-attachments/assets/dbbfe93e-f50c-4953-9076-9f94bf22e0f1)
-div align="center">Gambar 9 - Confusion Matrix</div>
+
+![Untitled](https://github.com/user-attachments/assets/e5998e1d-c56f-4c8a-9406-3b461c5a96b9)
+div align="center">Gambar 8 - Confusion Matrix</div>
 
 <br>
 
@@ -643,20 +652,21 @@ print(f"Test Accuracy: {accuracy}")
 ```
 Hasilnya
 ```python
-Test Accuracy: 0.8823606044815008
+Test Accuracy: 0.890149060272197
 ```
-Hasil diatas menujukkan bahwa Accuracy model menggunakan dataset test sebesar 88%. Hasilnya lebih kecil dibandingkan dengan baseline model dari Random Forest tanpa hyperparameter tuning.
+Hasil diatas menujukkan bahwa Accuracy model menggunakan dataset test sebesar 89%. Hasilnya lebih kecil dibandingkan dengan baseline model dari Random Forest tanpa hyperparameter tuning.
 
 Berikut ini adalah Visualisasi dari Confusin Matrix:
-![Untitled](https://github.com/user-attachments/assets/3215522a-7a03-4afd-aac9-06437569dde9)
-div align="center">Gambar 10 - Visualisasi Confusion Matrix</div>
+![Untitled](https://github.com/user-attachments/assets/f4889913-0372-40e1-bbfa-6a8801a2248d)
+div align="center">Gambar 9 - Visualisasi Confusion Matrix</div>
 <br>
 
 Berdasarkan visualisasi data diatas, hasilnya dapat dirincikan sebagai berikut:
-- True Positive (TP): 3599
-- True Negative (TN): 3174
-- False Positive (FP): 687
-- False Negative (FN): 216
+   * True Positive (TP): 4399
+   * True Negative (TN): 3842
+   * False Positive (FP): 764
+   * False Negative (FN): 253
+
 
 Berikut ini adalah laporan lengkap terkait evaluasi model dengan metrik lainnya yang juga digunakan:
 ```python
@@ -675,19 +685,20 @@ Berikut ini adalah hasil dari kode diatas:
 Classification Report :
               precision    recall  f1-score   support
 
-           0       0.84      0.94      0.89      3815
-           1       0.94      0.82      0.88      3861
+           0       0.85      0.95      0.90      4652
+           1       0.94      0.83      0.88      4606
 
-    accuracy                           0.88      7676
-   macro avg       0.89      0.88      0.88      7676
-weighted avg       0.89      0.88      0.88      7676    
+    accuracy                           0.89      9258
+   macro avg       0.90      0.89      0.89      9258
+weighted avg       0.89      0.89      0.89      9258
+  
 ````
 
 Berdasarkan output diatas, berikut ini adalah hasil akhir dari model yang dibangun dengan algoritma `Random Forest` dengan hyperparameter tuning:
-- `Accuracy` : 0.88
-- `Precision`: 0.88
-- `Recall`: 0.88
-- `F1-Score`: 0.88
+- `Accuracy` : 0.89
+- `Precision`: 0.89
+- `Recall`: 0.89
+- `F1-Score`: 0.89
 
 ## Referensi
 
