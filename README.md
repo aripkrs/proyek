@@ -9,7 +9,6 @@ Berdasarkan permasalahan tersebut agar dapat mengidentifikasi jamur yang dapat d
 
 ## Business Understanding
 Berdasarkan data  Dilaporkan menurut Center for Disease Control and Prevention (CDC) lebih dari 41.000 orang meninggal pada tahun 2008 dikarenakan secara tidak sengaja keracunan, sedangkan World Health Organization (WHO) melaporkan sekitar 0,346 juta kematian sejak tahun 2004. Artinya cukup tinggi kematian yang diakibatkan jamur beracun. Salah satu manfaat dari adanya model klasifikasi jamur beracun atau tidak  ini adalah model ini dapat digunakan untuk mengedukasi masyarakat terutma masyarakat pedesaan.
-Pada bagian ini.
 
 ### Problem Statements
    1. Berdasarkan eksplorasi terhadap dataset, fitur-fitur apa saja yang dapat menentukan atau memberi pengaruh terhadap klasifikasi beracun atau tidaknya jamur?
@@ -35,17 +34,18 @@ Dataset ini cocok untuk membangun model supervised learning, khususnya binary cl
 Dataset tersebut dapat diunduh disini [dataset](https://www.kaggle.com/datasets/prishasawhney/mushroom-dataset/data).
 Berikut ini adalah informasi lainnya mengenai variabel-variabel yang terdapat di dataset tersebut:
 
-1. Cap Diameter 
-2. Cap Shape
-3. Gill Attachment 
-4. Gill Color
-5. Stem Height
-6. Stem Width
-7. Stem Color
-8. Season
-9. Target Class
+*  Cap Diameter = Diameter Tutup/topi
+*   Cap Shape = Bnetuk tutup
+*    Gill Attachment = penempelan ingsang
+*    Gill Color = warna ingsang
+*   Stem Height = tinggi batang
+*    Stem Width = lebar batang
+*    Stem Color = warna batang
+*   Season = musim
+*    Class = target class dapat dimakan atau tidak (0 dapat diamakan, 1 beracun)
 
-*** exploratory data analysis ***
+
+### *** exploratory data analysis ***
 Exploratory Data Analysis (EDA) adalah pendekatan analisis data yang bertujuan untuk memahami karakteristik utama dari kumpulan data. EDA melibatkan penggunaan teknik statistik dan visualisasi grafis untuk menemukan pola, hubungan, atau anomali untuk membentuk hipotesis. Proses ini sering kali tidak terstruktur dan dianggap sebagai langkah awal penting dalam analisis data yang membantu menentukan arah analisis lebih lanjut.
 
 Berikut ini adalah EDA yang dilakukan:
@@ -57,8 +57,8 @@ Hasilnya
   (54035,9)
   ```
  Berdasarkan output diatas, didapatkan informasi:
-  - Terdapat 54035 baris data
-  - Tedapat 9 kolom
+  * Terdapat 54035 baris data
+  * Tedapat 9 kolom
 Pada bagian ini, belum dapat diketahui **nama** dari **kolom-kolom** yang ada.
  ``` python
   df.keys()
@@ -113,32 +113,15 @@ min	     0.000000	     0.000000	     0.000000	        0.000000	    0.000426	    
 max	     1891.000000	 6.000000	     6.000000	        11.000000	    3.835320	    3569.000000	    12.000000	    1.804273	    1.000000
 ```
 Berdasarkan _output_ tersebut, didapatkan informasi mengenai statistika deskriptif dari _dataset_ yang digunakan. Berikut ini adalah keterangan untuk setiap bagian:
-   - ```count``` : Jumlah data dari sebuah kolom
-   - ```mean``` : Rata-rata dari sebuah kolom
-   - ```std``` : Standar deviasi dari sebuah kolom
-   - ```min``` : Nilai terendah pada sebuah kolom
-   - ```25%``` : Nilai kuartil pertama (Q1) dari sebuah kolom
-   - ```50%``` : Nilai kuartil kedua (Q2) atau median atau nilai tengah dari sebuah kolom
-   - ```75%``` : Nilai kuartil ketiha (Q3) dari sebuah kolom
-   - ```max``` : Nilai tertinggi pada sebuah kolom
+   * ```count``` : Jumlah data dari sebuah kolom
+   * ```mean``` : Rata-rata dari sebuah kolom
+   * ```std``` : Standar deviasi dari sebuah kolom
+   * ```min``` : Nilai terendah pada sebuah kolom
+   * ```25%``` : Nilai kuartil pertama (Q1) dari sebuah kolom
+   * ```50%``` : Nilai kuartil kedua (Q2) atau median atau nilai tengah dari sebuah kolom
+   * ```75%``` : Nilai kuartil ketiha (Q3) dari sebuah kolom
+   * ```max``` : Nilai tertinggi pada sebuah kolom
 
-Menjumlah total missing value pada dataset
-``` python
-df.isnull().sum()
-```
-Hasinya
-``` python
-cap-diameter	0
-cap-shape	0
-gill-attachment	0
-gill-color	0
-stem-height	0
-stem-width	0
-stem-color	0
-season	0
-class	0
-dtype: int64
-```
 ### Visualisasi data
 - _Univariate Analysis
 Univariate Analysis adalah jenis analisis data yang memeriksa satu variabel (atau bidang data) pada satu waktu. Tujuannya adalah untuk menggambarkan data dan menemukan pola yang ada dalam distribusi variabel tersebut. Ini termasuk penggunaan statistik deskriptif, histogram, dan box plots untuk menganalisis distribusi dan memahami sifat dari variabel tersebut.
@@ -174,7 +157,7 @@ Data Preparation
  <div align="center">Gambar 4 - Multivariate Analysis Categorical Column - Numeric Column based on class</div>
  Berdasarkan gambar kedua visualisasi data diatas, dapat terlihat nyaris semua variabel terpisah menunjukkan karakteristik atau pola khusus terhadap variabel label, yaitu 'Class'. 0 dan 1 (ditandai dengan warna oren dan biru)
 
- - _Correlation_
+### Correlation
 
 Uji Korelasi adalah metode statistik yang digunakan untuk menentukan apakah ada hubungan antara dua variabel kuantitatif dan seberapa kuat hubungan tersebut. Uji ini menghasilkan nilai koefisien korelasi, seperti Pearson atau Spearman, yang berkisar antara -1 hingga +1. Nilai mendekati +1 menunjukkan korelasi positif yang kuat, sedangkan nilai mendekati -1 menunjukkan korelasi negatif yang kuat. Nilai mendekati 0 menunjukkan tidak adanya korelasi. Uji korelasi penting dalam menentukan arah dan kekuatan hubungan antar variabel, yang dapat membantu dalam pemodelan prediktif dan analisis penyebab.
 
@@ -182,12 +165,28 @@ Uji Korelasi adalah metode statistik yang digunakan untuk menentukan apakah ada 
    <div align="center">Gambar 4 - Multivariate Analysis Categorical Column - Numeric Column based on class</div>
 Berdasarkan  visualisasi diatas, terlihat bahwa kolom ```season```, ```gill color```, ```gill attachement```, memiliki skor korelasi yang paling kecil terhadap label. Kolom yang semacam ini baiknya di-drop saja untuk meringankan beban komputasi dan mengurangi dimensi dari dataset yang akan digunakan dalam pelatihan model
 
-- _Missing Value_
+### Missing Value_
 
     _Missing Values_ adalah data yang hilang atau tidak tercatat dalam dataset. Hal ini bisa terjadi karena berbagai alasan, seperti kesalahan entri data, kerusakan data, atau tidak tersedianya informasi saat pengumpulan data. Missing values dapat mempengaruhi kualitas model _machine learning_ dan hasil analisis statistik. Oleh karena itu, penting untuk mengidentifikasi, menganalisis, dan mengatasi missing values dengan metode seperti imputasi, di mana nilai yang hilang diganti dengan estimasi, atau dengan menghapus baris atau kolom yang terdampak.
    <div align="center">Gambar 5 - Multivariate Analysis Categorical Column - Numeric Column based on class</div>
-
-Berdasarkan gambar diatas tidak ditemukan mising value
+Menjumlah total missing value pada dataset
+``` python
+df.isnull().sum()
+```
+Hasinya
+``` python
+cap-diameter	0
+cap-shape	0
+gill-attachment	0
+gill-color	0
+stem-height	0
+stem-width	0
+stem-color	0
+season	0
+class	0
+dtype: int64
+```
+Berdasarkan Output diatas tidak ditemukan mising value
 
 # Data Preparation
 _Data Preparation_ adalah proses pembersihan, transformasi, dan pengorganisasian data mentah ke dalam format yang dapat dipahami oleh algoritma pembelajaran mesin. Berikut ini adalah **urutan** langkah-langkah Data Preparation yang dilakukan beserta penjelasan dan alasannya:
