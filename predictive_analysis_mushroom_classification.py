@@ -71,7 +71,21 @@ df
 
 """# Data Understanding
 
-_Dataset yang digunakan untuk pembangunan model machine learning ini adalah dataset "Mushroom-dataset" yang tersedia di situs web Kaggle. Dataset tersebut adalah dataset kuantitatif yang berisi kolom-kolom yang dapat menentukan sebuah jamur  beracun atau tidak. Dataset ini memiliki 54035 baris dan 9 kolom data.
+Dataset yang digunakan untuk pembangunan model machine learning ini adalah dataset "Mushroom-dataset" yang tersedia di situs web [Kaggle](https://www.kaggle.com/datasets/prishasawhney/mushroom-dataset). Dataset tersebut adalah dataset kuantitatif yang berisi kolom-kolom yang dapat menentukan sebuah jamur  beracun atau tidak. Dataset ini memiliki 54035 baris dan 9 kolom data.
+
+erikut ini adalah informasi lainnya mengenai variabel-variabel yang terdapat di dataset tersebut:
+
+Variabel-variabel pada _Dataset "Mushroom dataset"_ adalah sebagai berikut:
+
+   * Cap Diameter = Diameter Tutup/topi
+   * Cap Shape = Bnetuk tutup
+   * Gill Attachment = penempelan ingsang
+   * Gill Color = warna ingsang
+   * Stem Height = tinggi batang
+   * Stem Width = lebar batang
+   * Stem Color = warna batang
+   * Season = musim
+   * Class = target class dapat dimakan atau tidak (0 dapat diamakan, 1 beracun)
 
 ## Exploratory Data Analysis
 
@@ -104,8 +118,8 @@ Dataset memiliki 9 kolom, yaitu 'cap-diameter', 'cap-shape', 'gill-attachment', 
 df.info()
 
 """Berdasarkan hasil diatas, didatkan informasi:
-- Kolom ```stem-height dan season`` memiliki tipe data *float64*
-- Kolom lainnya memiliki tipe data *int64`*
+ * Kolom ```stem-height dan season``` memiliki tipe data *float64*
+ * Kolom lainnya memiliki tipe data *int64*
 """
 
 # Menampilkan statistika deskriptif unuk setiap kolom
@@ -121,13 +135,8 @@ df.describe()
 - ```50%``` : Nilai kuartil kedua (Q2) atau median atau nilai tengah dari sebuah kolom
 - ```75%``` : Nilai kuartil ketiha (Q3) dari sebuah kolom
 - ```max``` : Nilai tertinggi pada sebuah kolom
-"""
 
-# Menjumlah total missing value pada dataset
-
-df.isnull().sum()
-
-"""## Data Visualization
+## Data Visualization
 
 ### Univariate Analysis
 
@@ -183,7 +192,9 @@ if len(numerical_columns) < len(axs):
 plt.tight_layout()
 plt.show()
 
-"""### Multivariate Analysis
+"""Berdasarkan visualisasi diatas, gambar ini menampilkan setiap kolom numerik yang ada pada dataset.
+
+### Multivariate Analysis
 
 _Multivariate Analysis_ adalah prosedur statistik yang digunakan untuk memeriksa hubungan antara beberapa variabel secara bersamaan. Teknik ini mencakup berbagai metode seperti regresi berganda, analisis faktor, dan analisis kluster, yang membantu dalam memahami struktur dan pola yang kompleks dalam data dengan lebih dari satu variabel.
 """
@@ -205,30 +216,25 @@ plt.figure(figsize=(8, 12))
 heatmap = sns.heatmap(df.corr()[['class']].sort_values(by='class', ascending=False), vmin=-1, vmax=1, annot=True, cmap='BrBG')
 heatmap.set_title('Korelasi kolom terhadap kolom Class', fontdict={'fontsize':18}, pad=16);
 
-"""Berdasarkan  visualisasi diatas, terlihat bahwa kolom ```season```, ```gill color```, ```gill attachement```, ```Turbidity``` memiliki skor korelasi yang paling kecil terhadap label. Kolom yang semacam ini baiknya di-drop saja untuk meringankan beban komputasi dan mengurangi dimensi dari dataset yang akan digunakan dalam pelatihan model
+"""Berdasarkan  visualisasi diatas, terlihat bahwa kolom ```season```, ```gill color```, ```gill attachement```, memiliki skor korelasi yang paling kecil terhadap label. Kolom yang semacam ini baiknya di-drop saja untuk meringankan beban komputasi dan mengurangi dimensi dari dataset yang akan digunakan dalam pelatihan model
 
-### Missing Value
+## Missing Value
 
 _Missing Values_ adalah data yang hilang atau tidak tercatat dalam dataset. Hal ini bisa terjadi karena berbagai alasan, seperti kesalahan entri data, kerusakan data, atau tidak tersedianya informasi saat pengumpulan data. Missing values dapat mempengaruhi kualitas model _machine learning_ dan hasil analisis statistik. Oleh karena itu, penting untuk mengidentifikasi, menganalisis, dan mengatasi missing values dengan metode seperti imputasi, di mana nilai yang hilang diganti dengan estimasi, atau dengan menghapus baris atau kolom yang terdampak.
-
-# Data Preparation
-
-## Data Cleaning
-
-Data cleaning_ adalah adalah langkah penting dalam proses Machine Learning karena melibatkan identifikasi dan penghapusan data yang hilang, duplikat, atau tidak relevan yang terdapat pada dataset. Proses ini memiliki berbagai langkah yang perlu dilakukan supaya dataset siap digunakan untuk pembangunan model Machine Learning.
-
-**Alasan**: _Data Cleaning_ diperlukan agar data yang digunakan akurat, konsisten, dan bebas kesalahan, karena data yang salah atau tidak konsisten dapat berdampak negatif terhadap performa model Machine Learning
-
-### Detection and Removal Duplicates
-
-Data duplikat adalah baris data yang sama persis untuk setiap variabel yang ada. Dataset yang digunakan perlu diperiksa juga apakah dataset memiliki data yang sama atau data duplikat. Jika ada, maka data tersebut harus ditangani dengan menghapus data duplikat tersebut.
-
-**Alasan**: Data duplikat perlu didektesi dan dihapus karena jika dibiarkan pada dataset dapat membuat model Anda memiliki bias, sehingga menyebabkan _overfitting_. Dengan kata lain, model memiliki performa akurasi yang baik pada data pelatihan, tetapi buruk pada data baru. Menghapus data duplikat dapat membantu memastikan bahwa model Anda dapat menemukan pola yang ada lebih baik lagi.
 """
+
+# Melakukan visualisasi missing value pada setiap kolom
 
 msno.matrix(df, color=(0.19, 0.84, 0.78))
 
-"""Berdasarkan gambar diatas tidak ditemukan mising value"""
+df.isnull().sum()
+
+"""Berdasarkan hasil diatas, tidak terdapat data missing value
+
+## Duplikat data
+
+Berfungsi untuk mengecek duplikat data
+"""
 
 # Cek baris duplikat dalam dataset
 duplicates = df.duplicated()
@@ -239,11 +245,62 @@ duplicate_count = duplicates.sum()
 # Cetak jumlah baris duplikat
 print(f"Number of duplicate rows: {duplicate_count}")
 
-"""Berdasarkan hasil tersebut, ditemukan adanya 303 data duplikat."""
+"""Berdasarkan hasil diatas menunjukkan terdapat 303 data duplikat
 
+## Outlier
+
+Berdasarkan boxplots diatas, semua kolom numerik memiliki outliers-nya masing-masing. Outliers perlu dihapus untuk mendapatkan model dengan performa yang bagus.
+"""
+
+feature_columns = df.select_dtypes(include=[np.number]).drop('class', axis=1)
+
+feature_columns.plot(kind='box', subplots=True, layout=(1, len(feature_columns.columns)), figsize=(12, 8))
+plt.tight_layout()
+plt.show()
+
+"""Berdasarkan boxplots diatas, semua kolom numerik memiliki outliers-nya masing-masing. Outliers perlu dihapus untuk mendapatkan model dengan performa yang bagus.
+
+# Data Preparation
+
+## Feature selection
+
+### Dropping Column with Low Correlation
+
+ada bagian ini adalah proses penghapusan fitur-fitur yang memiliki korelasi rendah terhadap variabel target dari dataset. Langkah ini diambil berdasarkan asumsi bahwa fitur dengan korelasi rendah tidak memberikan kontribusi signifikan terhadap prediksi yang dibuat oleh model.
+
+**Alasan**: Tahapan ini perlu dilakukan karena fitur dengan korelasi rendah terhadap variabel target cenderung tidak memberikan informasi yang berguna untuk prediksi dan dapat menambahkan kebisingan yang tidak perlu ke dalam model. Dengan menghilangkan fitur-fitur ini, kita dapat mengurangi kompleksitas model, yang dapat membantu dalam mencegah _overfitting_ dan mempercepat waktu pelatihan. Selain itu, model yang lebih sederhana dengan fitur yang lebih sedikit lebih mudah untuk diinterpretasikan, yang memungkinkan kita untuk lebih memahami bagaimana fitur-fitur tersebut mempengaruhi variabel target.
+"""
+
+# Mendefinisikan daftar fitur dengan korelasi rendah terhadap variabel target
+low_corr = ['season', 'gill-attachment', 'gill-color']
+
+# Menghapus fitur-fitur tersebut dari dataset
+# Axis=1 menunjukkan bahwa operasi penghapusan dilakukan pada kolom (fitur)
+df = df.drop(low_corr, axis=1)
+
+df
+
+"""Penghapusan kolom dengan korelasi rendah sudah berhasil dilakukan. Berdasarkan dataframe diatas, tersisa 6 kolom. 1 kolom label dan 5 kolom numerik.
+
+## Data Cleaning
+
+Data cleaning_ adalah adalah langkah penting dalam proses Machine Learning karena melibatkan identifikasi dan penghapusan data yang hilang, duplikat, atau tidak relevan yang terdapat pada dataset. Proses ini memiliki berbagai langkah yang perlu dilakukan supaya dataset siap digunakan untuk pembangunan model Machine Learning.
+
+**Alasan**: _Data Cleaning_ diperlukan agar data yang digunakan akurat, konsisten, dan bebas kesalahan, karena data yang salah atau tidak konsisten dapat berdampak negatif terhadap performa model Machine Learning
+
+### Dropping Column with Low Correlation
+
+### Removal Duplicates
+
+Data duplikat adalah baris data yang sama persis untuk setiap variabel yang ada. Dataset yang digunakan perlu diperiksa juga apakah dataset memiliki data yang sama atau data duplikat. Jika ada, maka data tersebut harus ditangani dengan menghapus data duplikat tersebut.
+
+**Alasan**: Data duplikat perlu didektesi dan dihapus karena jika dibiarkan pada dataset dapat membuat model Anda memiliki bias, sehingga menyebabkan _overfitting_. Dengan kata lain, model memiliki performa akurasi yang baik pada data pelatihan, tetapi buruk pada data baru. Menghapus data duplikat dapat membantu memastikan bahwa model Anda dapat menemukan pola yang ada lebih baik lagi.
+
+**Setelah ditemukan 303 duplikat data maka akan kita hapus**
+"""
+
+# hapus duplikat data
 dfclean=df.drop_duplicates()
-
-
 
 # Cek baris duplikat dalam dataset
 duplicates = dfclean.duplicated()
@@ -254,9 +311,7 @@ duplicate_count = duplicates.sum()
 # Cetak jumlah baris duplikat
 print(f"Number of duplicate rows: {duplicate_count}")
 
-"""Data duplikat berhasil dihapus
-
-### Dropping Column with Low Correlation
+"""Berdasarkan hasil diatas data duplikat berhasil dihapus
 
 ada bagian ini adalah proses penghapusan fitur-fitur yang memiliki korelasi rendah terhadap variabel target dari dataset. Langkah ini diambil berdasarkan asumsi bahwa fitur dengan korelasi rendah tidak memberikan kontribusi signifikan terhadap prediksi yang dibuat oleh model.
 
@@ -272,24 +327,17 @@ dfclean = dfclean.drop(low_corr, axis=1)
 
 dfclean
 
-"""Penghapusan kolom dengan korelasi rendah sudah berhasil dilakukan. Berdasarkan dataframe diatas, tersisa 6 kolom. 1 kolom label dan 5 kolom numerik.
-
-### Handle Missing Value
-
-_Missing Value_ terjadi ketika variabel atau barus tertentu kekurangan titik data, sehingga menghasilkan informasi yang tidak lengkap. Nilai yang hilang dapat ditangani dengan berbagai cara seperti imputasi (mengisi nilai yang hilang dengan mean, median, modus, dll), atau penghapusan (menghilangkan baris atau kolom yang nilai hilang)
-
-**Alasan**: _Missing Value_ perlu ditangani karena jika dibiarkan dapat berpengaruh ke rendahnya akurasi model yang akan dibuat. Maka dari itu, penting untuk mengatasi missing value secara efisien untuk mendapatkan model _Machine Learning_ yang baik juga.
-"""
-
-dfclean.isnull().sum()
-
-"""Berdasarkan output diatas, tidak ada mising value"""
+"""Penghapusan kolom dengan korelasi rendah sudah berhasil dilakukan. Berdasarkan dataframe diatas, tersisa 6 kolom. 1 kolom label dan 5 kolom numerik."""
 
 dfclean.shape
 
 """Berdasarkan output diatas, kini dataframe memiliki:
 - 6 Kolom
 - 53732 baris data
+
+### Handle Missing Value
+
+Berdasarkan data understanding diatas, tidak ada mising value
 
 ### Outliers Detection and Removal
 
@@ -317,19 +365,13 @@ Proses pembersihan outliers menggunakan metode IQR (Interquartile Range) melibat
 Pembersihan Outliers yang teridentifikasi kemudian dapat dibersihkan dari dataset, baik dengan menghapusnya atau melakukan transformasi tertentu.
     
 **Alasan**:_Outliers_ perlu dideteksi dan dihapus karena jika dibiarkan dapat merusak hasil analisis statistik pada kumpulan data sehingga menghasilkan performa model yang kurang baik. Selain itu, Mendeteksi dan menghapus _outlier_ dapat membantu meningkatkan performa model _Machine Learning_ menjadi lebih baik.
+
+**Berdasarkan boxplots dalam data uderstanding, semua kolom numerik memiliki outliers-nya masing-masing. Outliers perlu dihapus untuk mendapatkan model dengan performa yang bagus.**
 """
 
-feature_columns = dfclean.select_dtypes(include=[np.number]).drop('class', axis=1)
-
-feature_columns.plot(kind='box', subplots=True, layout=(1, len(feature_columns.columns)), figsize=(12, 8))
-plt.tight_layout()
-plt.show()
-
-"""Berdasarkan boxplots diatas, semua kolom numerik memiliki outliers-nya masing-masing. Outliers perlu dihapus untuk mendapatkan model dengan performa yang bagus."""
-
 # Assuming 'df' is your DataFrame
-Q1 = df.quantile(0.25)
-Q3 = df.quantile(0.75)
+Q1 = dfclean.quantile(0.25)
+Q3 = dfclean.quantile(0.75)
 IQR = Q3 - Q1
 
 # Define bounds for what is considered an outlier
@@ -345,7 +387,7 @@ df.shape
 
 """Berdasarkan output diatas, kini dataframe memiliki:
 - 6 Kolom
-- 44674 baris data
+- 50667 baris data
 
 ### Imbalance Data
 
@@ -396,8 +438,8 @@ print("Dataset training memiliki data sebanyak " + str(train_count[0]) + " baris
 print("Dataset test memiliki data sebanyak " + str(test_count[0]) + " baris")
 
 """Berdasarkan output diatas, terlihat bahwa:
-- `X_train` memiliki 30704 baris data
-- `X_test` memiliki 7676 baris data
+- `X_train` memiliki 37030 baris data
+- `X_test` memiliki 9258 baris data
 """
 
 train_count_label = y_train.shape
@@ -488,7 +530,7 @@ svm.fit(X_train, y_train)
 svm_predictions = svm.predict(X_test)
 print(f'SVM Accuracy: {accuracy_score(y_test, svm_predictions)}')
 
-"""Berdasarkan hasil tersebut, Algoritma SVM memiliki akurasi test sebesar 65%"""
+"""Berdasarkan hasil tersebut, Algoritma SVM memiliki akurasi test sebesar 64%"""
 
 # Random Forest
 random_forest = RandomForestClassifier(n_estimators=100, random_state=42)
@@ -589,7 +631,7 @@ print(f"Best cross-validation score (accuracy): {best_score}")
 
 - `max_depth`: 10
 - `min_samples_leaf`: 1
-- `min_samples_split`: 2,
+- `min_samples_split`: 5,
 - `n_estimators`: 400
 
 # Evaluasi
@@ -605,10 +647,10 @@ y_pred = best_model.predict(X_test)
 accuracy = metrics.accuracy_score(y_test, y_pred)
 print(f"Test Accuracy: {accuracy}")
 
-"""Hasil diatas menujukkan bahwa `Accuracy` model menggunakan dataset `test` sebesar 88%."""
+"""Hasil diatas menujukkan bahwa `Accuracy` model menggunakan dataset `test` sebesar 89%."""
 
 # Plot the confusion matrix
-plt.figure(figsize=(10,7))
+plt.figure(figsize=(7,4))
 cm = confusion_matrix(y_true, y_pred)
 sns.heatmap(cm, annot=True, fmt='d',  cmap='Blues')
 plt.xlabel('Predicted')
@@ -616,10 +658,10 @@ plt.ylabel('True')
 plt.show()
 
 """Berdasarkan visualisasi data diatas, hasilnya dapat dirincikan sebagai berikut:
-- True Positive (TP): 3599
-- True Negative (TN): 3174
-- False Positive (FP): 687
-- False Negative (FN): 216
+- True Positive (TP): 4399
+- True Negative (TN): 3842
+- False Positive (FP): 764
+- False Negative (FN): 253
 """
 
 # Calculate and print the evaluation metrics
@@ -633,8 +675,8 @@ classification_report = metrics.classification_report(y_test, y_pred)
 print(f"Classification Report :\n{classification_report}")
 
 """Berdasarkan output diatas, berikut ini adalah hasil akhir dari model yang dibangun dengan algoritma `Random Forest` dengan hyperparameter tuning:
-- `Accuracy` : 0.88
-- `Precision`: 0.88
-- `Recall`: 0.88
-- `F1-Score`: 0.88
+- `Accuracy` : 0.89
+- `Precision`: 0.89
+- `Recall`: 0.89
+- `F1-Score`: 0.89
 """
