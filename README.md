@@ -123,7 +123,7 @@ Berdasarkan _output_ tersebut, didapatkan informasi mengenai statistika deskript
    * ```max``` : Nilai tertinggi pada sebuah kolom
 
 ### Visualisasi data
-- _Univariate Analysis
+#### Univariate Analysis
 Univariate Analysis adalah jenis analisis data yang memeriksa satu variabel (atau bidang data) pada satu waktu. Tujuannya adalah untuk menggambarkan data dan menemukan pola yang ada dalam distribusi variabel tersebut. Ini termasuk penggunaan statistik deskriptif, histogram, dan box plots untuk menganalisis distribusi dan memahami sifat dari variabel tersebut.
 ``` python
 # Membuat count plot
@@ -146,9 +146,9 @@ Berdasarkan Gambar diatas, terlihat bahwa class memiliki dua unique value, yaitu
 
 Berdasarkan Gambar 2., gambar ini menampilkan setiap kolom numerik yang ada pada dataset, cap-diameter, cap-shape, gill-attachment, gill-color,	stem-width , stem-color
 
- - _Multivariate Analysis_
+#### Multivariate Analysis_
 
-    _Multivariate Analysis_ adalah prosedur statistik yang digunakan untuk memeriksa hubungan antara beberapa variabel secara bersamaan. Teknik ini mencakup berbagai metode seperti regresi berganda, analisis faktor, dan analisis kluster, yang membantu dalam memahami struktur dan pola yang kompleks dalam data dengan lebih dari satu variabel.
+    Multivariate Analysis adalah prosedur statistik yang digunakan untuk memeriksa hubungan antara beberapa variabel secara bersamaan. Teknik ini mencakup berbagai metode seperti regresi berganda, analisis faktor, dan analisis kluster, yang membantu dalam memahami struktur dan pola yang kompleks dalam data dengan lebih dari satu variabel.
 Data Preparation
 ![Untitled](https://github.com/user-attachments/assets/73496745-4224-4bc0-a499-6a59fa2909c6)
  <div align="center">Gambar 3 - Multivariate Analysis Categorical Column - Every Numeric Column</div>
@@ -188,8 +188,38 @@ dtype: int64
 ```
 Berdasarkan Output diatas tidak ditemukan mising value
 
-# Data Preparation
-_Data Preparation_ adalah proses pembersihan, transformasi, dan pengorganisasian data mentah ke dalam format yang dapat dipahami oleh algoritma pembelajaran mesin. Berikut ini adalah **urutan** langkah-langkah Data Preparation yang dilakukan beserta penjelasan dan alasannya:
+### Duplikat data
+Berfungsi untuk mengecek apakah terdapat duplikat data dalam dataset
+``` python
+# Cek baris duplikat dalam dataset
+duplicates = df.duplicated()
+
+# Hitung jumlah baris duplikat
+duplicate_count = duplicates.sum()
+
+# Cetak jumlah baris duplikat
+print(f"Number of duplicate rows: {duplicate_count}")
+```
+Hasilnya
+``` python
+Number of duplicate rows: 303
+```
+Berdasarkan hasil diatas menunjukkan terdapat 303 data duplikat
+
+### Outlier
+Outlier adalah nilai yang jauh berbeda dari nilai lainnya dalam kumpulan data. Nilai ini muncul sebagai pengecualian dalam pola data yang ada.
+``` python
+feature_columns = df.select_dtypes(include=[np.number]).drop('class', axis=1)
+feature_columns.plot(kind='box', subplots=True, layout=(1, len(feature_columns.columns)), figsize=(12, 8))
+plt.tight_layout()
+plt.show()
+```
+![Untitled](https://github.com/user-attachments/assets/f2190683-a27c-450f-b753-474ddeab557b)
+ <div align="center">Gambar 6 - Outlier class</div>
+Berdasarkan boxplots diatas, semua kolom numerik memiliki outliers-nya masing-masing. Outliers perlu dihapus untuk mendapatkan model dengan performa yang bagus.
+
+## Data Preparation
+Data Preparation adalah proses pembersihan, transformasi, dan pengorganisasian data mentah ke dalam format yang dapat dipahami oleh algoritma pembelajaran mesin. Berikut ini adalah **urutan** langkah-langkah Data Preparation yang dilakukan beserta penjelasan dan alasannya:
 
 - _Data Cleaning_
   
