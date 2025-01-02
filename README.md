@@ -372,7 +372,7 @@ Jumlah baris data yang bernilai '0' ada sebanyak: 23144
 Jumlah baris data yang bernilai '1' ada sebanyak: 23144
 ```
 Berdasarkan output diatas, dataset memiliki sudah jumlah kelasnya sudah seimbang. `0` dan `1` sudah memiliki jumlah baris data yang sama. 
-### Train Test Split_
+### Train Test Split
   
 Train Test Split adalah metode yang digunakan untuk membagi dataset menjadi dua bagian: satu untuk melatih model (_training set_) dan satu lagi untuk menguji model (_testing set_). Biasanya, data dibagi dengan proporsi tertentu, misalnya 80% untuk training dan 20% untuk testing.
 
@@ -588,7 +588,7 @@ Ketika model sudah dibangun dan sudah melakukan uji dengan data test, perlu dila
 
 
 ![Untitled](https://github.com/user-attachments/assets/e5998e1d-c56f-4c8a-9406-3b461c5a96b9)
-div align="center">Gambar 8 - Confusion Matrix</div>
+<div align="center">Gambar 8 - Confusion Matrix</div>
 
 <br>
 
