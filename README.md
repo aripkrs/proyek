@@ -45,7 +45,7 @@ Berikut ini adalah informasi lainnya mengenai variabel-variabel yang terdapat di
 *    Class = target class dapat dimakan atau tidak (0 dapat diamakan, 1 beracun)
 
 
-### *** exploratory data analysis ***
+### Exploratory data analysis
 Exploratory Data Analysis (EDA) adalah pendekatan analisis data yang bertujuan untuk memahami karakteristik utama dari kumpulan data. EDA melibatkan penggunaan teknik statistik dan visualisasi grafis untuk menemukan pola, hubungan, atau anomali untuk membentuk hipotesis. Proses ini sering kali tidak terstruktur dan dianggap sebagai langkah awal penting dalam analisis data yang membantu menentukan arah analisis lebih lanjut.
 
 Berikut ini adalah EDA yang dilakukan:
@@ -148,7 +148,7 @@ Berdasarkan Gambar 2., gambar ini menampilkan setiap kolom numerik yang ada pada
 
 #### Multivariate Analysis
 
-    Multivariate Analysis adalah prosedur statistik yang digunakan untuk memeriksa hubungan antara beberapa variabel secara bersamaan. Teknik ini mencakup berbagai metode seperti regresi berganda, analisis faktor, dan analisis kluster, yang membantu dalam memahami struktur dan pola yang kompleks dalam data dengan lebih dari satu variabel.
+Multivariate Analysis adalah prosedur statistik yang digunakan untuk memeriksa hubungan antara beberapa variabel secara bersamaan. Teknik ini mencakup berbagai metode seperti regresi berganda, analisis faktor, dan analisis kluster, yang membantu dalam memahami struktur dan pola yang kompleks dalam data dengan lebih dari satu variabel.
 Data Preparation
 ![Untitled](https://github.com/user-attachments/assets/73496745-4224-4bc0-a499-6a59fa2909c6)
  <div align="center">Gambar 3 - Multivariate Analysis Categorical Column - Every Numeric Column</div>
@@ -237,22 +237,21 @@ low_corr = ['season', 'gill-attachment', 'gill-color']
 df = df.drop(low_corr, axis=1)
 df
 ```
- 	|cap-diameter| 	cap-shape| 	stem-height 	|stem-width 	|stem-color 	|class|
+| 	|cap-diameter| 	cap-shape| 	stem-height 	|stem-width 	|stem-color 	|class|
   |:------|-----------:|-----------:|----------:|--------------:|----------:|---------------:|
-0 	|1372 	|2 	|3.807467 |	1545 	|11 |	1|
-1 	1461 	2 	3.807467 	1557 	11 	1
-2 	1371 	2 	3.612496 	1566 	11 	1
-3 	1261 	6 	3.787572 	1566 	11 	1
-4 	1305 	6 	3.711971 	1464 	11 	1
-... 	... 	... 	... 	... 	... 	...
-54030 	73 	5 	0.887740 	569 	12 	1
-54031 	82 	2 	1.186164 	490 	12 	1
-54032 	82 	5 	0.915593 	584 	12 	1
-54033 	79 	2 	1.034963 	491 	12 	1
-54034 	72 	5 	1.158311 	492 	12 	1
+|0 	|1372 	|2 	|3.807467 |	1545 	|11 |	1|
+|1 	|1461 	|2 	|3.807467 |	1557 	|11 | 1|
+|2 	|1371 	|2 	|3.612496 |1566 	|11 | 1|
+|3 	|1261 	|6 	|3.787572 |	1566 |11  |1|
+|4 	|1305 	|6 	|3.711971 |	1464 	|11 |1|
+|... 	|... 	|... |	...| 	...| 	... |	...|
+|54030 	|73 	|5 	|0.887740 	|569 |	12 	|1
+|54031 	|82 	|2 	|1.186164 	|490 	|12 	|1
+|54032 	|82 	|5 	|0.915593 	|584 	|12 	|1
+|54033 	|79 	|2 	|1.034963 	|491 	|12 	|1
+|54034 	|72 	|5 	|1.158311 	|492 	|12 	|1
 
-
-
+Penghapusan kolom dengan korelasi rendah sudah berhasil dilakukan. Berdasarkan dataframe diatas, tersisa 6 kolom. 1 kolom label dan 5 kolom numerik.
 
 ### Data Cleaning
   
@@ -260,86 +259,36 @@ Data cleaning adalah adalah langkah penting dalam proses Machine Learning karena
     
 **Alasan**: _Data Cleaning_ diperlukan agar data yang digunakan akurat, konsisten, dan bebas kesalahan, karena data yang salah atau tidak konsisten dapat berdampak negatif terhadap performa model Machine Learning
 
-    - _Detection and Removal Duplicates_
+#### Removal Duplicates
       
-      Data duplikat adalah baris data yang sama persis untuk setiap variabel yang ada. Dataset yang digunakan perlu diperiksa juga apakah dataset memiliki data yang sama atau data duplikat. Jika ada, maka data tersebut harus ditangani dengan menghapus data duplikat tersebut.
+Data duplikat adalah baris data yang sama persis untuk setiap variabel yang ada. Dataset yang digunakan perlu diperiksa juga apakah dataset memiliki data yang sama atau data duplikat. Jika ada, maka data tersebut harus ditangani dengan menghapus data duplikat tersebut.
 
-      **Alasan**: Data duplikat perlu didektesi dan dihapus karena jika dibiarkan pada dataset dapat membuat model Anda memiliki bias, sehingga menyebabkan _overfitting_. Dengan kata lain, model memiliki performa akurasi yang baik pada data pelatihan, tetapi buruk pada data baru. Menghapus data duplikat dapat membantu memastikan bahwa model Anda dapat menemukan pola yang ada lebih baik lagi.
-
-      Berikut ini adalah proses pendeteksian dan penghapusan data duplikatnya:
-      ```python
-      # Cek baris duplikat dalam dataset
-      duplicates = df.duplicated()
-      
-      # Hitung jumlah baris duplikat
-      duplicate_count = duplicates.sum()
-      
-      # Cetak jumlah baris duplikat
-      print(f"Number of duplicate rows: {duplicate_count}")
-
-      ```
-
-      Berikut ini adalah hasilnya:
-
-      ```python
-        Number of duplicate rows: 303
-      ```
-
-Berdasarkan hasil tersebut, ditemukan adanya 303 data duplikat.
-selanjutnya 
-```python
+**Alasan**: Data duplikat perlu didektesi dan dihapus karena jika dibiarkan pada dataset dapat membuat model Anda memiliki bias, sehingga menyebabkan _overfitting_. Dengan kata lain, model memiliki performa akurasi yang baik pada data pelatihan, tetapi buruk pada data baru. Menghapus data duplikat dapat membantu memastikan bahwa model Anda dapat menemukan pola yang ada lebih baik lagi.
+**Setelah ditemukan 303 duplikat dalam proses data understanding   maka akan kita hapus**
+Berikut ini adalah proses pendeteksian dan penghapusan data duplikatnya:
+ ```python
+ # hapus duplikat data
 dfclean=df.drop_duplicates()
-```
-Berikut ini adalah hasilnya:
-
-      ```python
-        Number of duplicate rows: 0
+      
+ # Hitung jumlah baris duplikat
+ duplicate_count = duplicates.sum()
+      
+ # Cetak jumlah baris duplikat
+ print(f"Number of duplicate rows: {duplicate_count}")
       ```
+ Berikut ini adalah hasilnya:
+
+ ```python
+ Number of duplicate rows: 0
+ ```
+Berdasarkan hasil diatas data duplikat berhasil dihapus
    
-- _Dropping Column with Low Correlation_
+#### Handle Missing Value
+Berdasarkan data understanding diatas, tidak ada mising value  
+
+#### Outliers Detection and Removal
       
-Pada bagian ini adalah proses penghapusan fitur-fitur yang memiliki korelasi rendah terhadap variabel target dari dataset. Langkah ini diambil berdasarkan asumsi bahwa fitur dengan korelasi rendah tidak memberikan kontribusi signifikan terhadap prediksi yang dibuat oleh model.
- 
-**Alasan**: Tahapan ini perlu dilakukan karena fitur dengan korelasi rendah terhadap variabel target cenderung tidak memberikan informasi yang berguna untuk prediksi dan dapat menambahkan kebisingan yang tidak perlu ke dalam model. Dengan menghilangkan fitur-fitur ini, kita dapat mengurangi kompleksitas model, yang dapat membantu dalam mencegah _overfitting_ dan mempercepat waktu pelatihan. Selain itu, model yang lebih sederhana dengan fitur yang lebih sedikit lebih mudah untuk diinterpretasikan, yang memungkinkan kita untuk lebih memahami bagaimana fitur-fitur tersebut mempengaruhi variabel target. 
-
-Berikut ini adalah proses penghapusan kolom dengan korelasi yang rendah:
-      ```python
-      # Mendefinisikan daftar fitur dengan korelasi rendah terhadap variabel target
-     low_corr = ['season', 'gill-attachment', 'gill-color']
-      
-      # Menghapus fitur-fitur tersebut dari dataset
-      # Axis=1 menunjukkan bahwa operasi penghapusan dilakukan pada kolom (fitur)
-      dfclean = dfclean.drop(low_corr, axis=1)
-      ```
-Berikut ini adalah tampilan _dataframe_ setelah penghapusan beberapa kolom:
-![image](https://github.com/user-attachments/assets/78662bcc-136e-43b5-a78f-7832fd97fe6a)
-
-Penghapusan kolom dengan korelasi rendah sudah berhasil dilakukan.
-
-- _Handle Missing Value_
-      
- _Missing Value_ terjadi ketika variabel atau barus tertentu kekurangan titik data, sehingga menghasilkan informasi yang tidak lengkap. Nilai yang hilang dapat ditangani dengan berbagai cara seperti imputasi (mengisi nilai yang hilang dengan mean, median, modus, dll), atau penghapusan (menghilangkan baris atau kolom yang nilai hilang)
- 
-**Alasan**: _Missing Value_ perlu ditangani karena jika dibiarkan dapat berpengaruh ke rendahnya akurasi model yang akan dibuat. Maka dari itu, penting untuk mengatasi missing value secara efisien untuk mendapatkan model _Machine Learning_ yang baik juga.
- 
-Berikut ini adalah kode untuk mencari tahu kolom mana saja dan berapa jumlah _missing value_-nya:
-      ```python
-       dfclean.isnull().sum()
-      ```
- ```python	
-cap-diameter 	0
-cap-shape 	0
-stem-height 	0
-stem-width 	0
-stem-color 	0
-class 	0
-
-dtype: int64
-```
-
-  - _Outliers Detection and Removal_
-      
-_Outliers_ adalah titik data yang secara signifikan berbeda dari sebagian besar data dalam kumpulan data. Outliers dapat muncul karena variasi dalam pengukuran atau mungkin menunjukkan kesalahan eksperimental; dalam beberapa kasus, outliers bisa juga menunjukkan variabilitas yang sebenarnya dalam data. Penting untuk menganalisis outliers karena mereka dapat memiliki pengaruh besar pada hasil analisis statistik.
+Outliers adalah titik data yang secara signifikan berbeda dari sebagian besar data dalam kumpulan data. Outliers dapat muncul karena variasi dalam pengukuran atau mungkin menunjukkan kesalahan eksperimental; dalam beberapa kasus, outliers bisa juga menunjukkan variabilitas yang sebenarnya dalam data. Penting untuk menganalisis outliers karena mereka dapat memiliki pengaruh besar pada hasil analisis statistik.
  
 Proses pembersihan outliers menggunakan metode IQR (Interquartile Range) melibatkan beberapa langkah:
       
@@ -356,28 +305,38 @@ Proses pembersihan outliers menggunakan metode IQR (Interquartile Range) melibat
         Pembersihan _Outliers_ yang teridentifikasi kemudian dapat dibersihkan dari dataset, baik dengan menghapusnya atau melakukan transformasi tertentu.
     
 **Alasan**:_Outliers_ perlu dideteksi dan dihapus karena jika dibiarkan dapat merusak hasil analisis statistik pada kumpulan data sehingga menghasilkan performa model yang kurang baik. Selain itu, Mendeteksi dan menghapus _outlier_ dapat membantu meningkatkan performa model _Machine Learning_ menjadi lebih baik.
+**Berdasarkan boxplots dalam data uderstanding, semua kolom numerik memiliki outliers-nya masing-masing. Outliers perlu dihapus untuk mendapatkan model dengan performa yang bagus.**
 
-![Untitled](https://github.com/user-attachments/assets/5ae544f3-3fdb-471d-9de2-46d66474f06d)
- <div align="center">Gambar6 - Boxplots Outlier</div>
-Berdasarkan boxplots diatas, semua kolom numerik memiliki outliers-nya masing-masing. Outliers perlu dihapus untuk mendapatkan model dengan performa yang bagus.
   Berikut ini adalah kode untuk menghapus _outliers_ yang ada pada dataframe:
-      ```python
-      # Assuming 'df' is your DataFrame
-      Q1 = df.quantile(0.25)
-      Q3 = df.quantile(0.75)
-      IQR = Q3 - Q1
-      
-      # Define bounds for what is considered an outlier
-      lower_bound = Q1 - 1.5 * IQR
-      upper_bound = Q3 + 1.5 * IQR
-      
-      # Remove outliers
-      df = dfclean[~((df < lower_bound) | (df > upper_bound)).any(axis=1)]
-      ```
+```python
+# Assuming 'df' is your DataFrame
+Q1 = dfclean.quantile(0.25)
+Q3 = dfclean.quantile(0.75)
+IQR = Q3 - Q1
+
+# Define bounds for what is considered an outlier
+lower_bound = Q1 - 1.5 * IQR
+upper_bound = Q3 + 1.5 * IQR
+
+# Remove outliers
+df = dfclean[~((df < lower_bound) | (df > upper_bound)).any(axis=1)]   
+
+```
+Outliers yang berada pada setiap kolom sudah dihapus.
+```python
+df.shape
+```
+```python
+(50667, 6)
+```
+Berdasarkan output diatas, kini dataframe memiliki:
+   * 6 Kolom
+   * 50667 baris data
 Penghapusan _outliers_ sudah berhasil dilakukan.
-- _Imbalance Data_
+
+#### Imbalance Data
       
-_Imbalance data_ adalah kondisi di mana kelas atau kategori dalam dataset tidak diwakili secara merata, dengan satu kelas mendominasi yang lain. Jika hal ini dibiarkan hingga proses pelatihan model dapat mengakibatkan bias pada model. Hal ini bisa diatasi dengan _oversampling_ atau _undersampling_.
+Imbalance data adalah kondisi di mana kelas atau kategori dalam dataset tidak diwakili secara merata, dengan satu kelas mendominasi yang lain. Jika hal ini dibiarkan hingga proses pelatihan model dapat mengakibatkan bias pada model. Hal ini bisa diatasi dengan _oversampling_ atau _undersampling_.
 
 **Alasan**: Hal ini dapat menjadi masalah adalah karena _imbalance_ _data_ dapat menyebabkan model bias terhadap kelas mayoritas (lebih banyak) dan menghasilkan performa yang buruk pada kelas minoritas lebih sedikit)
  Berikut ini adalah untuk memeriksa ada berapa baris data untuk masing-masing kelas pada kolom ```'Class'```:
