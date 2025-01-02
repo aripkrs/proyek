@@ -146,7 +146,7 @@ Berdasarkan Gambar diatas, terlihat bahwa class memiliki dua unique value, yaitu
 
 Berdasarkan Gambar 2., gambar ini menampilkan setiap kolom numerik yang ada pada dataset, cap-diameter, cap-shape, gill-attachment, gill-color,	stem-width , stem-color
 
-#### Multivariate Analysis_
+#### Multivariate Analysis
 
     Multivariate Analysis adalah prosedur statistik yang digunakan untuk memeriksa hubungan antara beberapa variabel secara bersamaan. Teknik ini mencakup berbagai metode seperti regresi berganda, analisis faktor, dan analisis kluster, yang membantu dalam memahami struktur dan pola yang kompleks dalam data dengan lebih dari satu variabel.
 Data Preparation
@@ -221,11 +221,45 @@ Berdasarkan boxplots diatas, semua kolom numerik memiliki outliers-nya masing-ma
 ## Data Preparation
 Data Preparation adalah proses pembersihan, transformasi, dan pengorganisasian data mentah ke dalam format yang dapat dipahami oleh algoritma pembelajaran mesin. Berikut ini adalah **urutan** langkah-langkah Data Preparation yang dilakukan beserta penjelasan dan alasannya:
 
-- _Data Cleaning_
+### Feature selection
+#### Dropping Column with Low Correlation
+pada bagian ini adalah proses penghapusan fitur-fitur yang memiliki korelasi rendah terhadap variabel target dari dataset. Langkah ini diambil berdasarkan asumsi bahwa fitur dengan korelasi rendah tidak memberikan kontribusi signifikan terhadap prediksi yang dibuat oleh model.
+
+**Alasan**: Tahapan ini perlu dilakukan karena fitur dengan korelasi rendah terhadap variabel target cenderung tidak memberikan informasi yang berguna untuk prediksi dan dapat menambahkan kebisingan yang tidak perlu ke dalam model. Dengan menghilangkan fitur-fitur ini, kita dapat mengurangi kompleksitas model, yang dapat membantu dalam mencegah _overfitting_ dan mempercepat waktu pelatihan. Selain itu, model yang lebih sederhana dengan fitur yang lebih sedikit lebih mudah untuk diinterpretasikan, yang memungkinkan kita untuk lebih memahami bagaimana fitur-fitur tersebut mempengaruhi variabel target.
+
+Berdasarkan visualisasi pada data understading, terlihat bahwa kolom season, gill color, gill attachement, memiliki skor korelasi yang paling kecil terhadap label.
+```python
+# Mendefinisikan daftar fitur dengan korelasi rendah terhadap variabel target
+low_corr = ['season', 'gill-attachment', 'gill-color']
+
+# Menghapus fitur-fitur tersebut dari dataset
+# Axis=1 menunjukkan bahwa operasi penghapusan dilakukan pada kolom (fitur)
+df = df.drop(low_corr, axis=1)
+df
+```
+ 	|cap-diameter| 	cap-shape| 	stem-height 	|stem-width 	|stem-color 	|class|
+  |:------|-----------:|-----------:|----------:|--------------:|----------:|---------------:|
+0 	|1372 	|2 	|3.807467 |	1545 	|11 |	1|
+1 	1461 	2 	3.807467 	1557 	11 	1
+2 	1371 	2 	3.612496 	1566 	11 	1
+3 	1261 	6 	3.787572 	1566 	11 	1
+4 	1305 	6 	3.711971 	1464 	11 	1
+... 	... 	... 	... 	... 	... 	...
+54030 	73 	5 	0.887740 	569 	12 	1
+54031 	82 	2 	1.186164 	490 	12 	1
+54032 	82 	5 	0.915593 	584 	12 	1
+54033 	79 	2 	1.034963 	491 	12 	1
+54034 	72 	5 	1.158311 	492 	12 	1
+
+
+
+
+### Data Cleaning
   
-  _Data cleaning_ adalah adalah langkah penting dalam proses Machine Learning karena melibatkan identifikasi dan penghapusan data yang hilang, duplikat, atau tidak relevan yang terdapat pada dataset. Proses ini memiliki berbagai langkah yang perlu dilakukan supaya dataset siap digunakan untuk pembangunan model Machine Learning.
+Data cleaning adalah adalah langkah penting dalam proses Machine Learning karena melibatkan identifikasi dan penghapusan data yang hilang, duplikat, atau tidak relevan yang terdapat pada dataset. Proses ini memiliki berbagai langkah yang perlu dilakukan supaya dataset siap digunakan untuk pembangunan model Machine Learning.
     
-  **Alasan**: _Data Cleaning_ diperlukan agar data yang digunakan akurat, konsisten, dan bebas kesalahan, karena data yang salah atau tidak konsisten dapat berdampak negatif terhadap performa model Machine Learning
+**Alasan**: _Data Cleaning_ diperlukan agar data yang digunakan akurat, konsisten, dan bebas kesalahan, karena data yang salah atau tidak konsisten dapat berdampak negatif terhadap performa model Machine Learning
+
     - _Detection and Removal Duplicates_
       
       Data duplikat adalah baris data yang sama persis untuk setiap variabel yang ada. Dataset yang digunakan perlu diperiksa juga apakah dataset memiliki data yang sama atau data duplikat. Jika ada, maka data tersebut harus ditangani dengan menghapus data duplikat tersebut.
