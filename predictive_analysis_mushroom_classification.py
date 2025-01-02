@@ -249,7 +249,7 @@ print(f"Number of duplicate rows: {duplicate_count}")
 
 ## Outlier
 
-Berdasarkan boxplots diatas, semua kolom numerik memiliki outliers-nya masing-masing. Outliers perlu dihapus untuk mendapatkan model dengan performa yang bagus.
+Outlier adalah nilai yang jauh berbeda dari nilai lainnya dalam kumpulan data. Nilai ini muncul sebagai pengecualian dalam pola data yang ada
 """
 
 feature_columns = df.select_dtypes(include=[np.number]).drop('class', axis=1)
@@ -266,9 +266,11 @@ plt.show()
 
 ### Dropping Column with Low Correlation
 
-ada bagian ini adalah proses penghapusan fitur-fitur yang memiliki korelasi rendah terhadap variabel target dari dataset. Langkah ini diambil berdasarkan asumsi bahwa fitur dengan korelasi rendah tidak memberikan kontribusi signifikan terhadap prediksi yang dibuat oleh model.
+pada bagian ini adalah proses penghapusan fitur-fitur yang memiliki korelasi rendah terhadap variabel target dari dataset. Langkah ini diambil berdasarkan asumsi bahwa fitur dengan korelasi rendah tidak memberikan kontribusi signifikan terhadap prediksi yang dibuat oleh model.
 
 **Alasan**: Tahapan ini perlu dilakukan karena fitur dengan korelasi rendah terhadap variabel target cenderung tidak memberikan informasi yang berguna untuk prediksi dan dapat menambahkan kebisingan yang tidak perlu ke dalam model. Dengan menghilangkan fitur-fitur ini, kita dapat mengurangi kompleksitas model, yang dapat membantu dalam mencegah _overfitting_ dan mempercepat waktu pelatihan. Selain itu, model yang lebih sederhana dengan fitur yang lebih sedikit lebih mudah untuk diinterpretasikan, yang memungkinkan kita untuk lebih memahami bagaimana fitur-fitur tersebut mempengaruhi variabel target.
+
+**Berdasarkan visualisasi pada data understading, terlihat bahwa kolom season, gill color, gill attachement, memiliki skor korelasi yang paling kecil terhadap label.**
 """
 
 # Mendefinisikan daftar fitur dengan korelasi rendah terhadap variabel target
@@ -287,8 +289,6 @@ df
 Data cleaning_ adalah adalah langkah penting dalam proses Machine Learning karena melibatkan identifikasi dan penghapusan data yang hilang, duplikat, atau tidak relevan yang terdapat pada dataset. Proses ini memiliki berbagai langkah yang perlu dilakukan supaya dataset siap digunakan untuk pembangunan model Machine Learning.
 
 **Alasan**: _Data Cleaning_ diperlukan agar data yang digunakan akurat, konsisten, dan bebas kesalahan, karena data yang salah atau tidak konsisten dapat berdampak negatif terhadap performa model Machine Learning
-
-### Dropping Column with Low Correlation
 
 ### Removal Duplicates
 
@@ -312,28 +312,6 @@ duplicate_count = duplicates.sum()
 print(f"Number of duplicate rows: {duplicate_count}")
 
 """Berdasarkan hasil diatas data duplikat berhasil dihapus
-
-ada bagian ini adalah proses penghapusan fitur-fitur yang memiliki korelasi rendah terhadap variabel target dari dataset. Langkah ini diambil berdasarkan asumsi bahwa fitur dengan korelasi rendah tidak memberikan kontribusi signifikan terhadap prediksi yang dibuat oleh model.
-
-**Alasan**: Tahapan ini perlu dilakukan karena fitur dengan korelasi rendah terhadap variabel target cenderung tidak memberikan informasi yang berguna untuk prediksi dan dapat menambahkan kebisingan yang tidak perlu ke dalam model. Dengan menghilangkan fitur-fitur ini, kita dapat mengurangi kompleksitas model, yang dapat membantu dalam mencegah _overfitting_ dan mempercepat waktu pelatihan. Selain itu, model yang lebih sederhana dengan fitur yang lebih sedikit lebih mudah untuk diinterpretasikan, yang memungkinkan kita untuk lebih memahami bagaimana fitur-fitur tersebut mempengaruhi variabel target.
-"""
-
-# Mendefinisikan daftar fitur dengan korelasi rendah terhadap variabel target
-low_corr = ['season', 'gill-attachment', 'gill-color']
-
-# Menghapus fitur-fitur tersebut dari dataset
-# Axis=1 menunjukkan bahwa operasi penghapusan dilakukan pada kolom (fitur)
-dfclean = dfclean.drop(low_corr, axis=1)
-
-dfclean
-
-"""Penghapusan kolom dengan korelasi rendah sudah berhasil dilakukan. Berdasarkan dataframe diatas, tersisa 6 kolom. 1 kolom label dan 5 kolom numerik."""
-
-dfclean.shape
-
-"""Berdasarkan output diatas, kini dataframe memiliki:
-- 6 Kolom
-- 53732 baris data
 
 ### Handle Missing Value
 
