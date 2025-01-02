@@ -165,15 +165,15 @@ Uji Korelasi adalah metode statistik yang digunakan untuk menentukan apakah ada 
    <div align="center">Gambar 4 - Multivariate Analysis Categorical Column - Numeric Column based on class</div>
 Berdasarkan  visualisasi diatas, terlihat bahwa kolom ```season```, ```gill color```, ```gill attachement```, memiliki skor korelasi yang paling kecil terhadap label. Kolom yang semacam ini baiknya di-drop saja untuk meringankan beban komputasi dan mengurangi dimensi dari dataset yang akan digunakan dalam pelatihan model
 
-### Missing Value_
+### Missing Value
 
-    _Missing Values_ adalah data yang hilang atau tidak tercatat dalam dataset. Hal ini bisa terjadi karena berbagai alasan, seperti kesalahan entri data, kerusakan data, atau tidak tersedianya informasi saat pengumpulan data. Missing values dapat mempengaruhi kualitas model _machine learning_ dan hasil analisis statistik. Oleh karena itu, penting untuk mengidentifikasi, menganalisis, dan mengatasi missing values dengan metode seperti imputasi, di mana nilai yang hilang diganti dengan estimasi, atau dengan menghapus baris atau kolom yang terdampak.
-   <div align="center">Gambar 5 - Multivariate Analysis Categorical Column - Numeric Column based on class</div>
+   Missing Values adalah data yang hilang atau tidak tercatat dalam dataset. Hal ini bisa terjadi karena berbagai alasan, seperti kesalahan entri data, kerusakan data, atau tidak tersedianya informasi saat pengumpulan data. Missing values dapat mempengaruhi kualitas model _machine learning_ dan hasil analisis statistik. Oleh karena itu, penting untuk mengidentifikasi, menganalisis, dan mengatasi missing values dengan metode seperti imputasi, di mana nilai yang hilang diganti dengan estimasi, atau dengan menghapus baris atau kolom yang terdampak.
+    
 Menjumlah total missing value pada dataset
 ``` python
 df.isnull().sum()
 ```
-Hasinya
+Hasilnya
 ``` python
 cap-diameter	0
 cap-shape	0
@@ -215,7 +215,7 @@ plt.tight_layout()
 plt.show()
 ```
 ![Untitled](https://github.com/user-attachments/assets/f2190683-a27c-450f-b753-474ddeab557b)
- <div align="center">Gambar 6 - Outlier class</div>
+ <div align="center">Gambar 5 - Outlier class</div>
 Berdasarkan boxplots diatas, semua kolom numerik memiliki outliers-nya masing-masing. Outliers perlu dihapus untuk mendapatkan model dengan performa yang bagus.
 
 ## Data Preparation
