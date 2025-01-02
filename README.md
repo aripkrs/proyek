@@ -532,8 +532,9 @@ Berikut ini adalah hasil dari _baseline model_ untuk ketiga model:
 
 ![Untitled](https://github.com/user-attachments/assets/d91de7fc-0c22-42f0-8db7-736ae7698aff)
 <div align="center">Gambar 6 - Baseline Model Train Test Results</div>
+
 ![Untitled-1](https://github.com/user-attachments/assets/8c6d82aa-9c6b-4e12-868d-bc18ae556404)
-div align="center">Gambar 7 - Baseline Model All Results</div>
+<div align="center">Gambar 7 - Baseline Model All Results</div>
 
 Model Random Forest terpilih sebagai model yang akan digunakan lebih lanjut dengan hyperparamter tuning karena memiliki performa train dan test yang tertinggi dibandingkan dengan 2 model lainnya. Kemudian, hasil Accuracy, Precision, Recall, dan F1 Score dari Random Forest juga menunjukkan hasil yang terbaik.
 
@@ -565,8 +566,9 @@ Best cross-validation score (accuracy): 0.8856332380672297
 Berdasarkan hasil dari proses `GridSearch`, kombinasi parameter yang terbaik adalah:
  * `max_depth`: 10
  * `min_samples_leaf`: 1
- * `min_samples_split`: 5,
+ * `min_samples_split`: 5
  * `n_estimators`: 400
+
 Berikut ini adalah penjelasan dari keempat parameter tersebut:
 
   - `max_depth`: 10
@@ -657,8 +659,9 @@ Test Accuracy: 0.890149060272197
 Hasil diatas menujukkan bahwa Accuracy model menggunakan dataset test sebesar 89%. Hasilnya lebih kecil dibandingkan dengan baseline model dari Random Forest tanpa hyperparameter tuning.
 
 Berikut ini adalah Visualisasi dari Confusin Matrix:
+
 ![Untitled](https://github.com/user-attachments/assets/f4889913-0372-40e1-bbfa-6a8801a2248d)
-div align="center">Gambar 9 - Visualisasi Confusion Matrix</div>
+<div align="center">Gambar 9 - Visualisasi Confusion Matrix</div>
 <br>
 
 Berdasarkan visualisasi data diatas, hasilnya dapat dirincikan sebagai berikut:
